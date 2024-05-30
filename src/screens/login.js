@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import CustomTextInput from '../components/customInput';
 import CustomButton from '../components/customButton';
 
@@ -8,7 +9,11 @@ const { width } = Dimensions.get('window');
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigation = useNavigation();
 
+    const handleRecuperaciones = () => {
+      navigation.navigate('Recuperacion');
+    };
     const handlePress = () => {
         Alert.alert('Button pressed!');
     };
@@ -18,18 +23,18 @@ const LoginScreen = () => {
             <Text style={styles.title}>Inicia sesión</Text>
             <Image source={require('../../assets/logo.png')} style={styles.logo} />
             <CustomTextInput
-                placeholder="Email Address"
+                placeholder="Correo"
                 keyboardType="email-address"
                 nombre={email}
                 setNombre={setEmail}
             />
             <CustomTextInput
-                placeholder="Password"
+                placeholder="Contraseña"
                 secureTextEntry
                 nombre={password}
                 setNombre={setPassword}
             />
-            <TouchableOpacity style={styles.forgotPasswordContainer}>
+            <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handleRecuperaciones}>
                 <Text style={styles.forgotPassword}>Olvidé mi contraseña</Text>
             </TouchableOpacity>
             <CustomButton
