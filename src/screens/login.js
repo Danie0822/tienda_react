@@ -15,7 +15,7 @@ const LoginScreen = () => {
       navigation.navigate('Recuperacion');
     };
     const handlePress = () => {
-        Alert.alert('Button pressed!');
+       navigation.navigate('Home');
     };
 
     return (

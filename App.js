@@ -6,6 +6,9 @@ import { StyleSheet, View } from 'react-native';
 import LoginScreen from './src/screens/login';
 import RecuperacionScreen from './src/screens/recuperacion'; 
 import RecuCodigoScreen from './src/screens/recuCodigo'; 
+import Navigation from './src/navigation/navigation'; 
+
+
 
 const Stack = createStackNavigator();
 
@@ -21,6 +24,7 @@ export default function App() {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Recuperacion" component={RecuperacionScreen} />
           <Stack.Screen name="RecuperacionCodigo" component={RecuCodigoScreen} />
+          <Stack.Screen name="Home" component={Navigation}/>
         </Stack.Navigator>
         <StatusBar style="auto" />
       </View>
