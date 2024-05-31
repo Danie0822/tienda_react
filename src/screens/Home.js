@@ -1,14 +1,38 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert, FlatList } from 'react-native';
 import CustomButton from '../components/customButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Input from '../components/input';
+import CardProduct from '../components/cardProducts';
+
 
 const { width } = Dimensions.get('window');
+const products = [
+    {
+        id: '1',
+        nombre: 'GOOD GIRL BLUSH',
+        marca: 'Carolina Herrera',
+        precio: '$99.95',
+        imagen: '',
+    },
+    // Puedes agregar más productos aquí
+];
+
 
 const Home = () => {
 
     const [search, setSearch] = useState('');
+    const handlePantallas = () => {
+        navigation.navigate('');
+    };
+    const renderItem = ({ item }) => (
+        <CardProduct
+            nombre={item.nombre}
+            marca={item.marca}
+            precio={item.precio}
+            imagen={item.imagen}
+        />
+    );
 
     return (
         <View style={styles.container}>
@@ -21,7 +45,22 @@ const Home = () => {
                 nombre={search}
                 setNombre={setSearch}
             />
-            <Text style={styles.title2}>Marcas favoritas</Text>
+            <View style={styles.header}>
+                <Text style={styles.title2}>Productos</Text>
+                <TouchableOpacity onPress={handlePantallas}>
+                    <Text style={styles.linkText}>Ver más</Text>
+                </TouchableOpacity>
+            </View>
+            <View>
+                <FlatList
+                    data={products}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                    numColumns={2}
+                    columnWrapperStyle={styles.row}
+                    contentContainerStyle={styles.listContainer}
+                />
+            </View>
         </View>
     );
 };
@@ -59,6 +98,28 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
         color: '#000',
+    },
+    containerText: {
+        width: width - 40,
+        alignItems: 'flex-end',
+
+    },
+    linkText: {
+        alignSelf: 'flex-end',
+        color: '#000000',
+        fontWeight: 'bold',
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 5,
+    },
+    row: {
+        justifyContent: 'space-between',
+    },
+    listContainer: {
+        paddingBottom: 20,
     },
 });
 
