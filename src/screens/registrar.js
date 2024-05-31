@@ -3,28 +3,36 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions, Alert } fr
 import { useNavigation } from '@react-navigation/native';
 import CustomTextInput from '../components/customInput';
 import CustomButton from '../components/customButton';
-
+import CustomFlecha from '../components/regresar';
 const { width } = Dimensions.get('window');
 
-const LoginScreen = () => {
+const Registrar = () => {
+    const [nombre, setNombre] = useState('');
+    const [apellido, setApellido] = useState('');
+    const [telefono, setTelefono] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
-
-    const handleRecuperaciones = () => {
-      navigation.navigate('Recuperacion');
-    };
     const handlePress = () => {
-       navigation.navigate('Home');
-    };
-    const handlePressRegistrar = () => {
-        navigation.navigate('Registrar');
+        navigation.navigate('Login');
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Inicia sesión</Text>
-            <Image source={require('../../assets/logo.png')} style={styles.logo} />
+            <CustomFlecha />
+            <Text style={styles.title}>Crea una cuenta</Text>
+            <CustomTextInput
+                placeholder="Nombre"
+                keyboardType="default"
+                nombre={nombre}
+                setNombre={setNombre}
+            />
+            <CustomTextInput
+                placeholder="Apellido"
+                keyboardType="default"
+                nombre={apellido}
+                setNombre={setApellido}
+            />
             <CustomTextInput
                 placeholder="Correo"
                 keyboardType="email-address"
@@ -32,20 +40,23 @@ const LoginScreen = () => {
                 setNombre={setEmail}
             />
             <CustomTextInput
+                placeholder="Telefono"
+                keyboardType="default"
+                nombre={telefono}
+                setNombre={setTelefono}
+            />
+            <CustomTextInput
                 placeholder="Contraseña"
                 secureTextEntry
                 nombre={password}
                 setNombre={setPassword}
             />
-            <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handleRecuperaciones}>
-                <Text style={styles.forgotPassword}>Olvidé mi contraseña</Text>
-            </TouchableOpacity>
             <CustomButton
                 text="Continuar"
                 onPress={handlePress}
             />
-            <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handlePressRegistrar}>
-                <Text style={styles.register}>No tienes una cuenta? <Text style={styles.registerLink}>Regístrate</Text></Text>
+            <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handlePress}>
+                <Text style={styles.register}>Ya tienes una cuenta? <Text style={styles.registerLink}>Inicia sesión</Text></Text>
             </TouchableOpacity>
         </View>
     );
@@ -59,26 +70,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     title: {
-        marginTop: 50,
-        fontSize: 32,
+        marginTop: 95,
+        alignSelf: 'flex-start',
+        marginLeft: 10,
+        fontSize: 28,
         fontWeight: 'bold',
         marginBottom: 20,
         color: '#000',
     },
-    logo: {
-        width: 180,
-        height: 180,
-        marginBottom: 40,
-    },
     forgotPasswordContainer: {
         width: width - 40,
         alignItems: 'flex-start',
-    },
-    forgotPassword: {
-        alignSelf: 'flex-start',
-        marginBottom: 20,
-        color: '#000000',
-        fontWeight: 'bold',
     },
     register: {
         alignSelf: 'flex-start',
@@ -89,6 +91,7 @@ const styles = StyleSheet.create({
         color: '#000000',
         fontWeight: 'bold',
     },
+
 });
 
-export default LoginScreen;
+export default Registrar;

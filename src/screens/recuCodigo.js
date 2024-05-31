@@ -13,7 +13,7 @@ const RecuCodigoScreen = () => {
 
     const handlePress = () => {
         const codeValue = code.join('');
-        Alert.alert('Código ingresado', codeValue);
+        navigation.navigate('RecuContra'); 
     };
 
     const handleChange = (index, value) => {
@@ -24,8 +24,8 @@ const RecuCodigoScreen = () => {
 
     return (
         <View style={styles.container}>
-             <CustomFlecha/>
-            <Text style={styles.title}>Cambiar tu contraseña</Text>
+            <CustomFlecha />
+            <Text style={styles.title}>Código de recuperación </Text>
             <View style={styles.codeContainer}>
                 {code.map((item, index) => (
                     <CustomCodigoInput
@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         color: '#000',
     },
-   
     codeContainer: {
         flexDirection: 'row',
         marginLeft: 5,
