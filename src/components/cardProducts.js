@@ -1,18 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
 const CardProduct = ({ nombre, marca, precio, imagen }) => {
+
+    const navigation = useNavigation();
+
+    const handlePress = () => {
+        navigation.navigate('DetalleProducto');
+    };
+
     return (
-        <View style={styles.cardContainer}>
-            <Image source={imagen} style={styles.image} />
-            <View style={styles.textContainer}>
-                <Text style={styles.productName}>{nombre}</Text>
-                <Text style={styles.productBrand}>{marca}</Text>
-                <Text style={styles.productPrice}>{precio}</Text>
-            </View>
+        <TouchableOpacity style={styles.cardContainer} onPress={handlePress}>
+        <Image source={imagen} style={styles.image} />
+        <View style={styles.textContainer}>
+            <Text style={styles.productName}>{nombre}</Text>
+            <Text style={styles.productBrand}>{marca}</Text>
+            <Text style={styles.productPrice}>{precio}</Text>
         </View>
+    </TouchableOpacity>
     );
 };
 

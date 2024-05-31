@@ -34,12 +34,13 @@ const products = [
 ];
 
 
-const Home = () => {
+const home = () => {
     //Variables para cambiar estado al boton
     const [search, setSearch] = useState('');
     const handlePantallas = () => {
         navigation.navigate('');
     };
+    //Iterando sobre cada item del arreglo, agregando los datos para las cards
     const renderItem = ({ item }) => (
         <CardProduct
             nombre={item.nombre}
@@ -138,4 +139,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Home;
+export default home;
