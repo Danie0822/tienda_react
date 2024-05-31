@@ -6,7 +6,7 @@ const { width } = Dimensions.get('window');
 const CardProduct = ({ nombre, marca, precio, imagen }) => {
     return (
         <View style={styles.cardContainer}>
-            <Image source={{ uri: imagen }} style={styles.image} />
+            <Image source={imagen} style={styles.image} />
             <View style={styles.textContainer}>
                 <Text style={styles.productName}>{nombre}</Text>
                 <Text style={styles.productBrand}>{marca}</Text>
@@ -43,13 +43,15 @@ const styles = StyleSheet.create({
     },
     productBrand: {
         fontSize: 14,
-        color: '#777',
+        color: '#000',
     },
     productPrice: {
         fontSize: 16,
         fontWeight: 'bold',
         marginTop: 5,
-        color: '#000',
+        color: '#777',
+        alignSelf:'flex-end',
+        marginLeft: 4
     },
 });
 

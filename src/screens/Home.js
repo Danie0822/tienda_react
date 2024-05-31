@@ -6,21 +6,36 @@ import Input from '../components/input';
 import CardProduct from '../components/cardProducts';
 
 
+
 const { width } = Dimensions.get('window');
+//Arreglo de productos que cambiara
 const products = [
     {
         id: '1',
         nombre: 'GOOD GIRL BLUSH',
         marca: 'Carolina Herrera',
         precio: '$99.95',
-        imagen: '',
+        imagen: require('../img/gucci.jpg'),
     },
-    // Puedes agregar más productos aquí
+    {
+        id: '2',
+        nombre: 'GOOD GIRL BLUSH',
+        marca: 'Carolina Herrera',
+        precio: '$99.95',
+        imagen: require('../img/gucci.jpg'),
+    },
+    {
+        id: '3',
+        nombre: 'GOOD GIRL BLUSH',
+        marca: 'Carolina Herrera',
+        precio: '$99.95',
+        imagen: require('../img/gucci.jpg'),
+    },
 ];
 
 
 const Home = () => {
-
+    //Variables para cambiar estado al boton
     const [search, setSearch] = useState('');
     const handlePantallas = () => {
         navigation.navigate('');
