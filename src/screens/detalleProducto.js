@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     },
     textTitulo: {
         fontSize: 20,
-        fontWeight: 'bold',
         color: '#000'
     },
     textMarca: {
@@ -52,7 +51,6 @@ const styles = StyleSheet.create({
     textPrecio: {
         fontSize: 16,
         color: '#EDD146',
-        fontWeight: 'bold',
         textAlign: 'right',
         marginRight: 10
     },
@@ -69,7 +67,6 @@ const styles = StyleSheet.create({
     text:{
         fontSize: 18,
         color: '#000',
-        fontWeight
     },
     data:{
         fontSize: 16,

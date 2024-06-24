@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
     },
     productName: {
         fontSize: 16,
-        fontWeight: 'bold',
     },
     productBrand: {
         fontSize: 14,
