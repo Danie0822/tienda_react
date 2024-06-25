@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 //Importancion de pantallas
-import Home from '../screens/home';
+import Home from '../screens/Home';
 
 //Variable para usar la libreria
 const Tab = createBottomTabNavigator();

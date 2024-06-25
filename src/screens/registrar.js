@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CustomTextInput from '../components/customInput';
 import CustomButton from '../components/customButton';
 import CustomFlecha from '../components/regresar';
+import { useRegistrar } from '../controller/publica/registrarSave'; 
+
 const { width } = Dimensions.get('window');
 
 const Registrar = () => {
@@ -13,8 +15,21 @@ const Registrar = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
+    const { registrarSave } = useRegistrar();
+
     const handlePress = () => {
         navigation.navigate('Login');
+    };
+
+    const handlePressRegistrar = async () => {
+        const { success, message } = await registrarSave(nombre, apellido, email, telefono, password);
+        if (success) {
+            Alert.alert("Registro exitoso", "Tu cuenta ha sido creada con éxito", [
+                { text: "OK", onPress: () => navigation.navigate('Login') }
+            ]);
+        } else {
+            Alert.alert("Error", message);
+        }
     };
 
     return (
@@ -24,36 +39,36 @@ const Registrar = () => {
             <CustomTextInput
                 placeholder="Nombre"
                 keyboardType="default"
-                nombre={nombre}
-                setNombre={setNombre}
+                value={nombre}
+                onChangeText={text => setNombre(text)}
             />
             <CustomTextInput
                 placeholder="Apellido"
                 keyboardType="default"
-                nombre={apellido}
-                setNombre={setApellido}
+                value={apellido}
+                onChangeText={text => setApellido(text)}
             />
             <CustomTextInput
                 placeholder="Correo"
                 keyboardType="email-address"
-                nombre={email}
-                setNombre={setEmail}
+                value={email}
+                onChangeText={text => setEmail(text)}
             />
             <CustomTextInput
                 placeholder="Telefono"
                 keyboardType="default"
-                nombre={telefono}
-                setNombre={setTelefono}
+                value={telefono}
+                onChangeText={text => setTelefono(text)}
             />
             <CustomTextInput
                 placeholder="Contraseña"
                 secureTextEntry
-                nombre={password}
-                setNombre={setPassword}
+                value={password}
+                onChangeText={text => setPassword(text)}
             />
             <CustomButton
                 text="Continuar"
-                onPress={handlePress}
+                onPress={handlePressRegistrar}
             />
             <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handlePress}>
                 <Text style={styles.register}>Ya tienes una cuenta? <Text style={styles.registerLink}>Inicia sesión</Text></Text>
@@ -91,7 +106,6 @@ const styles = StyleSheet.create({
         color: '#000000',
         fontWeight: 'bold',
     },
-
 });
 
 export default Registrar;

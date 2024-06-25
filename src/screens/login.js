@@ -3,6 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions, Alert } fr
 import { useNavigation } from '@react-navigation/native';
 import CustomTextInput from '../components/customInput';
 import CustomButton from '../components/customButton';
+import { authenticateUser, saveTokenToAsyncStorage } from '../controller/publica/login';
+import { calculateAndLogSha256 } from '../controller/utilis/sha256';
+
 
 const { width } = Dimensions.get('window');
 
@@ -12,11 +15,25 @@ const LoginScreen = () => {
     const navigation = useNavigation();
 
     const handleRecuperaciones = () => {
-      navigation.navigate('Recuperacion');
+        navigation.navigate('Recuperacion');
     };
-    const handlePress = () => {
-       navigation.navigate('Home');
+
+    const handlePress = async () => {
+        try {
+            const hashedPassword = await calculateAndLogSha256(password);
+            const userData = await authenticateUser(email, hashedPassword);
+            await saveTokenToAsyncStorage(userData);
+            limpiarFormulario();
+            navigation.navigate('Home');
+        } catch (error) {
+            Alert.alert('Error', error.message);
+        }
     };
+    const limpiarFormulario = () => {
+        setEmail('');
+        setPassword('');
+    };
+
     const handlePressRegistrar = () => {
         navigation.navigate('Registrar');
     };
@@ -28,14 +45,14 @@ const LoginScreen = () => {
             <CustomTextInput
                 placeholder="Correo"
                 keyboardType="email-address"
-                nombre={email}
-                setNombre={setEmail}
+                value={email}
+                onChangeText={text => setEmail(text)}
             />
             <CustomTextInput
                 placeholder="Contraseña"
                 secureTextEntry
-                nombre={password}
-                setNombre={setPassword}
+                value={password}
+                onChangeText={text => setPassword(text)}
             />
             <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handleRecuperaciones}>
                 <Text style={styles.forgotPassword}>Olvidé mi contraseña</Text>

@@ -1,10 +1,9 @@
 import React from 'react';
 import { TextInput, StyleSheet, Dimensions } from 'react-native';
 
-// Obtener el ancho de la pantalla
 const { width } = Dimensions.get('window');
 
-const CustomTextInput = ({ placeholder, secureTextEntry, keyboardType, nombre, setNombre }) => {
+const CustomTextInput = ({ placeholder, secureTextEntry, keyboardType, value, onChangeText }) => {
   return (
     <TextInput
       style={styles.input}
@@ -12,8 +11,8 @@ const CustomTextInput = ({ placeholder, secureTextEntry, keyboardType, nombre, s
       placeholderTextColor="#888"
       secureTextEntry={secureTextEntry}
       keyboardType={keyboardType}
-      value={nombre}
-      onChangeText={setNombre}
+      value={value}  
+      onChangeText={onChangeText}  
     />
   );
 };
@@ -29,7 +28,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
     backgroundColor: '#f5f5f5',
-    borderWidth: 0,
   },
 });
 
