@@ -1,22 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import CustomCodigoInput from '../components/customcodigo';
 import CustomButton from '../components/customButton';
 import CustomFlecha from '../components/regresar';
+import { useRegistrar } from '../controller/publica/correo';  // Importa useRegistrar
 
 const { width } = Dimensions.get('window');
+
+// Función para generar código aleatorio
+const generateRandomCode = () => {
+    const length = 4;
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+};
 
 const RecuCodigoScreen = () => {
     const [code, setCode] = useState(['', '', '', '']);
     const navigation = useNavigation();
+    const route = useRoute();
+    const { email } = route.params;
+    const [codigoRecuperacion, setCodigoRecuperacion] = useState('');
+    const { enviarCorreo, validarDatos } = useRegistrar();
 
-    const handlePress = () => {
+    // Efecto para enviar correo al montar el componente
+    useEffect(() => {
+        const generatedCode = generateRandomCode();
+        setCodigoRecuperacion(generatedCode);
+
+        enviarCorreo(email, generatedCode)
+            .then((response) => {
+                if (response.success) {
+                    Alert.alert('Código enviado', `Se ha enviado un correo a ${email} con el código de recuperación.`);
+                } else {
+                    Alert.alert('Error', response.message || 'No se pudo enviar el correo de recuperación.');
+                }
+            })
+            .catch((error) => {
+                Alert.alert('Error', 'Ocurrió un error al enviar el correo de recuperación.');
+            });
+    }, []);
+
+    // Manejar presión del botón de continuar
+    const handlePress = async () => {
         const codeValue = code.join('');
-        navigation.navigate('RecuContra'); 
+        const validationResponse = await validarDatos(email, codeValue, codigoRecuperacion);
+        if (validationResponse === true) {
+            navigation.navigate('RecuContra', { email });
+            Alert.alert('Código de recuperación es correcto');
+        } else {
+            Alert.alert('Error de validación', validationResponse);
+        }
     };
 
-    const handleChange = (index, value) => {
+     // Manejar cambio en el código de recuperación
+     const handleChange = (index, value) => {
         const newCode = [...code];
         newCode[index] = value;
         setCode(newCode);
@@ -25,7 +67,7 @@ const RecuCodigoScreen = () => {
     return (
         <View style={styles.container}>
             <CustomFlecha />
-            <Text style={styles.title}>Código de recuperación </Text>
+            <Text style={styles.title}>Código de recuperación</Text>
             <View style={styles.codeContainer}>
                 {code.map((item, index) => (
                     <CustomCodigoInput
@@ -36,10 +78,7 @@ const RecuCodigoScreen = () => {
                     />
                 ))}
             </View>
-            <CustomButton
-                text="Continuar"
-                onPress={handlePress}
-            />
+            <CustomButton text="Continuar" onPress={handlePress} />
         </View>
     );
 };

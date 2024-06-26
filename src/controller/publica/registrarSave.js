@@ -1,7 +1,7 @@
 import useApi from '../utilis/useApi';
 import validaciones from '../utilis/validaciones';
 import { calculateAndLogSha256 } from '../utilis/sha256';
-
+// funcion para registrar un cliente
 export const useRegistrar = () => {
   const { sendData } = useApi();
 
@@ -33,7 +33,7 @@ export const useRegistrar = () => {
       return { success: false, message: "Credenciales inválidas" };
     }
   };
-
+// funcion para validar los datos del cliente
   const validarDatos = async (nombre, apellido, email, telefono, password) => {
     if (!validaciones.contieneSoloLetrasYNumeros(nombre)) {
       return "Nombre no puede estar vacío y debe contener solo letras y números.";

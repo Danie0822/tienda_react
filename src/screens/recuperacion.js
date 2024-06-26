@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CustomTextInput from '../components/customInput';
 import CustomButton from '../components/customButton';
 import CustomFlecha from '../components/regresar';
+import validaciones from '../controller/utilis/validaciones';
 const { width } = Dimensions.get('window');
 
 const Recuperacion = () => {
@@ -11,7 +12,10 @@ const Recuperacion = () => {
     const navigation = useNavigation();
 
     const handlePress = () => {
-        navigation.navigate('RecuperacionCodigo');
+        if (!validaciones.validarCorreoElectronico(email)) {
+            return Alert.alert("El correo electrónico no tiene un formato válido.");
+        }
+        navigation.navigate('RecuperacionCodigo', { email });
     };
 
     return (
@@ -19,10 +23,10 @@ const Recuperacion = () => {
             <CustomFlecha/>
             <Text style={styles.title}>Cambiar tu contraseña</Text>
             <CustomTextInput
-                placeholder="correo"
+                placeholder="Correo"
                 keyboardType="email-address"
-                nombre={email}
-                setNombre={setEmail}
+                value={email}
+                onChangeText={text => setEmail(text)}
             />
             <CustomButton
                 text="Continuar"
@@ -42,13 +46,12 @@ const styles = StyleSheet.create({
     title: {
         marginTop: 95,
         alignSelf: 'flex-start', 
-        marginLeft: 10 ,
+        marginLeft: 10,
         fontSize: 28,
         fontWeight: 'bold',
         marginBottom: 20,
         color: '#000',
     },
-
 });
 
 export default Recuperacion;
