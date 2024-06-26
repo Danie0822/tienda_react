@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet, Dimensions, Alert } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import CustomTextInput from '../components/customInput';
 import CustomButton from '../components/customButton';
 import CustomFlecha from '../components/regresar';
+import { useCambioClave } from '../controller/publica/cambioClave'; 
 const { width } = Dimensions.get('window');
 
 const RecuContra = () => {
     const [password, setPassword] = useState('');
     const [password1, setPassword1] = useState('');
+    const route = useRoute();
     const navigation = useNavigation();
+    const { email } = route.params;
+    const { UpdateClave } = useCambioClave();
 
-    const handlePress = () => {
-        navigation.navigate('Login');
+    const handlePress = async() => {
+        const { success, message } = await UpdateClave(email, password, password1);
+        if (success) {
+            Alert.alert("Registro exitoso", "Tu cuenta a sido actualizada", [
+                { text: "OK", onPress: () => navigation.navigate('Login') }
+            ]);
+        } else {
+            Alert.alert("Error", message);
+        }
     };
 
     return (
@@ -23,13 +34,13 @@ const RecuContra = () => {
                 placeholder="Contraseña"
                 secureTextEntry
                 nombre={password}
-                setNombre={setPassword}
+                onChangeText={text => setPassword(text)}
             />
             <CustomTextInput
                 placeholder="Confirmar"
                 secureTextEntry
                 nombre={password1}
-                setNombre={setPassword1}
+                onChangeText={text => setPassword1(text)}
             />
             <CustomButton
                 text="Continuar"
