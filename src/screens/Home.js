@@ -4,9 +4,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Input from '../components/input';
 import CardProduct from '../components/cardProducts';
 import useApi from '../controller/utilis/useApi';
-import apiConfigImages from '../controller/utilis/apiConfigImages';
+import apiConfig from '../controller/utilis/apiConfig';
 
-const baseURL = apiConfigImages.getBaseURL(); // Asegúrate de que esto esté configurado correctamente
+const baseURL = apiConfig.getBaseURL2(); // Asegúrate de que esto esté configurado correctamente
 
 const { width } = Dimensions.get('window');
 
