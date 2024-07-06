@@ -14,11 +14,11 @@ const CardProduct = ({ nombre, marca, precio, imagen }) => {
 
     return (
         <TouchableOpacity style={styles.cardContainer} onPress={handlePress}>
-        <Image source={imagen} style={styles.image} />
+        <Image source={{ uri: imagen }} style={styles.image} />
         <View style={styles.textContainer}>
             <Text style={styles.productName}>{nombre}</Text>
             <Text style={styles.productBrand}>{marca}</Text>
-            <Text style={styles.productPrice}>{precio}</Text>
+            <Text style={styles.productPrice}>${precio.toFixed(2)}</Text>
         </View>
     </TouchableOpacity>
     );
@@ -46,9 +46,11 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     productName: {
+        fontWeight: '600',
         fontSize: 16,
     },
     productBrand: {
+        fontWeight: '400',
         fontSize: 14,
         color: '#000',
     },

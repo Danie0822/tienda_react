@@ -1,52 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert, FlatList } from 'react-native';
-import CustomButton from '../components/customButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Input from '../components/input';
 import CardProduct from '../components/cardProducts';
+import useApi from '../controller/utilis/useApi';
+import apiConfigImages from '../controller/utilis/apiConfigImages';
 
-
+const baseURL = apiConfigImages.getBaseURL(); // Asegúrate de que esto esté configurado correctamente
 
 const { width } = Dimensions.get('window');
-//Arreglo de productos que cambiara
-const products = [
-    {
-        id: '1',
-        nombre: 'GOOD GIRL BLUSH',
-        marca: 'Carolina Herrera',
-        precio: '$99.95',
-        imagen: require('../img/gucci.jpg'),
-    },
-    {
-        id: '2',
-        nombre: 'GOOD GIRL BLUSH',
-        marca: 'Carolina Herrera',
-        precio: '$99.95',
-        imagen: require('../img/gucci.jpg'),
-    },
-    {
-        id: '3',
-        nombre: 'GOOD GIRL BLUSH',
-        marca: 'Carolina Herrera',
-        precio: '$99.95',
-        imagen: require('../img/gucci.jpg'),
-    },
-];
 
-
-const home = () => {
-    //Variables para cambiar estado al boton
+const Home = () => {
     const [search, setSearch] = useState('');
+    const [products, setProducts] = useState([]);
+    const { fetchData } = useApi(); 
+    const url = `/inventario/vistaPrueba/view/`;
+
+    const fetchProducts = async () => {
+        try {
+            const response = await fetchData(url);
+            if (response.success) {
+                const formattedProducts = response.data.map(product => {
+                    const imageUrl = `${baseURL}${product.ruta_imagen}`; 
+                    return {
+                        ...product,
+                        ruta_imagen: imageUrl
+                    };
+                });
+                setProducts(formattedProducts);
+            } else {
+                Alert.alert('Error al cargar:', 'Error al cargar los datos de los productos');
+            }
+        } catch (error) {
+            Alert.alert('Error fetching products:', error.message);
+        }
+    };
+    
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
     const handlePantallas = () => {
         navigation.navigate('');
     };
-    //Iterando sobre cada item del arreglo, agregando los datos para las cards
+
     const renderItem = ({ item }) => (
         <CardProduct
-            nombre={item.nombre}
-            marca={item.marca}
-            precio={item.precio}
-            imagen={item.imagen}
+            nombre={item.nombre_inventario}
+            marca={item.nombre_marca}
+            precio={item.precio_inventario}
+            imagen={item.ruta_imagen}
         />
     );
 
@@ -71,7 +75,7 @@ const home = () => {
                 <FlatList
                     data={products}
                     renderItem={renderItem}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.id_inventario.toString()}
                     numColumns={2}
                     columnWrapperStyle={styles.row}
                     contentContainerStyle={styles.listContainer}
@@ -118,25 +122,22 @@ const styles = StyleSheet.create({
     containerText: {
         width: width - 40,
         alignItems: 'flex-end',
-
     },
     linkText: {
-        alignSelf: 'flex-end',
-        color: '#000000',
+        color: '#4B77BE',
         fontWeight: 'bold',
     },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 5,
+    listContainer: {
+        paddingBottom: 100,
     },
     row: {
         justifyContent: 'space-between',
     },
-    listContainer: {
-        paddingBottom: 20,
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
     },
 });
 
-export default home;
+export default Home;
