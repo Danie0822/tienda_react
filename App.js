@@ -11,6 +11,7 @@ import RecuContra from './src/screens/recuContra';
 import RecuCodigoScreen from './src/screens/recuCodigo'; 
 import Navigation from './src/navigation/navigation'; 
 import DetalleProducto from './src/screens/detalleProducto';
+import Carrito from './src/screens/carrito';
 
 const Stack = createStackNavigator();
 
@@ -80,6 +81,7 @@ export default function App() {
         <Stack.Screen name="RecuContra" component={RecuContra}/>
         <Stack.Screen name="Registrar" component={Registrar}/>
         <Stack.Screen name="DetalleProducto" component={DetalleProducto}/>
+        <Stack.Screen name="Carrito" component={Carrito}/>
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
