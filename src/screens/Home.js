@@ -6,7 +6,7 @@ import CardProduct from '../components/cardProducts';
 import useApi from '../controller/utilis/useApi';
 import apiConfig from '../controller/utilis/apiConfig';
 
-const baseURL = apiConfig.getBaseURL2(); // Asegúrate de que esto esté configurado correctamente
+const baseURL = apiConfig.getBaseURL2();
 
 const { width } = Dimensions.get('window');
 
@@ -41,10 +41,6 @@ const Home = () => {
         fetchProducts();
     }, []);
 
-    const handlePantallas = () => {
-        navigation.navigate('');
-    };
-
     const renderItem = ({ item }) => (
         <CardProduct
             nombre={item.nombre_inventario}
@@ -67,9 +63,6 @@ const Home = () => {
             />
             <View style={styles.header}>
                 <Text style={styles.title2}>Productos</Text>
-                <TouchableOpacity onPress={handlePantallas}>
-                    <Text style={styles.linkText}>Ver más</Text>
-                </TouchableOpacity>
             </View>
             <View>
                 <FlatList

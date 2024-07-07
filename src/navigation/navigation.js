@@ -4,7 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 //Importancion de pantallas
-import Home from '../screens/Home';
+import Home from '../screens/home';
+import PedidosScreen from '../screens/pedidos';
+import DetalleOrden from '../screens/pedidosDetalle'
 
 //Variable para usar la libreria
 const Tab = createBottomTabNavigator();
@@ -27,8 +29,8 @@ function MyTabs() {
                     headerShown: false,
                 }} />
             <Tab.Screen
-                name="CartTab"
-                component={Home}
+                name="OrdeTab"
+                component={PedidosScreen}
                 options={{
                     tabBarLabel: '',
                     tabBarIcon: ({ color, size }) => (
@@ -38,7 +40,7 @@ function MyTabs() {
                 }} />
             <Tab.Screen
                 name="ProfileTab"
-                component={Home}
+                component={DetalleOrden}
                 options={{
                     tabBarLabel: '',
                     tabBarIcon: ({ color, size }) => (
