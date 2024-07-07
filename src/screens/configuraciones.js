@@ -1,10 +1,40 @@
 // screens/Configuracion.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import { fetchInfoCliente } from '../controller/publica/configuraciones';
 const Configuracion = ({ }) => {
+    const { infoCliente } = fetchInfoCliente();
+    const [userInfo, setUserInfo] = useState(null);
+    const navigation = useNavigation();
+    const fetchData = async () => {
+        try {
+            const response = await infoCliente();
+            if (response.success) {
+                const user = response.data[0];
+                setUserInfo({
+                    nombre: user.nombre_cliente,
+                    correo: user.correo_cliente,
+                    telefono: user.telefono_cliente,
+                });
+            } else {
+                Alert.alert('Error al cargar:', 'No se pudo cargar la información del cliente.');
+            }
+        } catch (error) {
+            Alert.alert('Error al cargar', error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleEditarPerfil = () => {
+        navigation.navigate('EditPerfil');
+    };
+
     return (
         <View style={styles.container}>
             <Title style={styles.title}>Mi cuenta</Title>
@@ -12,13 +42,19 @@ const Configuracion = ({ }) => {
             <Card style={styles.card}>
                 <Card.Content>
                     <View style={styles.infoContainer}>
-                        <Text style={styles.infoText}>Gilbert Jones</Text>
-                        <Text style={styles.infoText2}>Glbertjones001@gmail.com</Text>
-                        <Text style={styles.infoText2}>121-224-7890</Text>
+                    {userInfo ? (
+                            <>
+                                <Text style={styles.infoText}>{"Nombre: " + userInfo.nombre}</Text>
+                                <Text style={styles.infoText2}>{"Correo: " + userInfo.correo}</Text>
+                                <Text style={styles.infoText2}>{"Telefono: " + userInfo.telefono}</Text>
+                            </>
+                        ) : (
+                            <Text>Cargando...</Text>
+                        )}
                     </View>
                 </Card.Content>
             </Card>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleEditarPerfil}>
                 <Text style={styles.buttonText}>Información personal</Text>
                 <MaterialCommunityIcons name="arrow-right" size={24} color="black" />
             </TouchableOpacity>

@@ -1,29 +1,27 @@
 import useApi from '../utilis/useApi';
 import validaciones from '../utilis/validaciones';
-import { calculateAndLogSha256 } from '../utilis/sha256';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // funcion para registrar un cliente
-export const useRegistrar = () => {
+export const usePerfil = () => {
   const { sendData } = useApi();
 
-  const registrarSave = async (nombre, apellido, email, telefono, password) => {
+  const registrarEdit = async (nombre, apellido, email, telefono) => {
     try {
-      const validacion = await validarDatos(nombre, apellido, email, telefono, password);
+      const validacion = await validarDatos(nombre, apellido, email, telefono);
       if (validacion !== true) {
         return { success: false, message: validacion };
       }
-
-      const hashedPassword = await calculateAndLogSha256(password);
-
+      const id = await AsyncStorage.getItem("id_cliente");
+      const idNumero = parseInt(id);
       const formData = {
+        id_cliente : idNumero,
         nombre_cliente: nombre,
         apellido_cliente: apellido,
         correo_cliente: email,
-        clave_cliente: hashedPassword,
-        telefono_cliente: telefono,
-        estado_cliente: true,
+        telefono_cliente: telefono
       };
 
-      const { success, data } = await sendData("/cliente/save", 'POST', formData);
+      const { success, data } = await sendData("/cliente/update/vali/cliente", 'PUT', formData);
       if (success) {
         return { success: true };
       } else {
@@ -34,7 +32,7 @@ export const useRegistrar = () => {
     }
   };
 // funcion para validar los datos del cliente
-  const validarDatos = async (nombre, apellido, email, telefono, password) => {
+  const validarDatos = async (nombre, apellido, email, telefono) => {
     if (!validaciones.contieneSoloLetrasYNumeros(nombre)) {
       return "Nombre no puede estar vacío y debe contener solo letras y números.";
     }
@@ -53,11 +51,8 @@ export const useRegistrar = () => {
     if (!validaciones.validarCorreoElectronico(email)) {
       return "El correo electrónico no tiene un formato válido.";
     }
-    if (!validaciones.validarContra(password)) {
-      return "La contraseña debe tener al menos 8 caracteres.";
-    }
     return true;
   };
 
-  return { registrarSave };
+  return { registrarEdit };
 };

@@ -12,7 +12,8 @@ import RecuCodigoScreen from './src/screens/recuCodigo';
 import Navigation from './src/navigation/navigation'; 
 import DetalleProducto from './src/screens/detalleProducto';
 import Carrito from './src/screens/carrito';
-
+import EditPerfil from './src/screens/editarPerfil';
+import Configuraciones from './src/screens/configuraciones';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -75,11 +76,13 @@ export default function App() {
         }}
       >
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="EditPerfil" component={EditPerfil} />
         <Stack.Screen name="Recuperacion" component={RecuperacionScreen} />
         <Stack.Screen name="RecuperacionCodigo" component={RecuCodigoScreen} />
         <Stack.Screen name="Home" component={Navigation}/>
         <Stack.Screen name="RecuContra" component={RecuContra}/>
         <Stack.Screen name="Registrar" component={Registrar}/>
+        <Stack.Screen name="Configuraciones" component={Configuraciones}/>
         <Stack.Screen name="DetalleProducto" component={DetalleProducto}/>
         <Stack.Screen name="Carrito" component={Carrito}/>
       </Stack.Navigator>
