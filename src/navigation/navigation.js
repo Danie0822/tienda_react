@@ -6,7 +6,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 //Importancion de pantallas
 import Home from '../screens/home';
 import PedidosScreen from '../screens/pedidos';
-import DetalleOrden from '../screens/pedidosDetalle'
+import DetalleOrden from '../screens/pedidosDetalle';
+import Configuracion from '../screens/configuraciones';
 
 //Variable para usar la libreria
 const Tab = createBottomTabNavigator();
@@ -40,7 +41,7 @@ function MyTabs() {
                 }} />
             <Tab.Screen
                 name="ProfileTab"
-                component={DetalleOrden}
+                component={Configuracion}
                 options={{
                     tabBarLabel: '',
                     tabBarIcon: ({ color, size }) => (
