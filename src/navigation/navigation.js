@@ -4,10 +4,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 //Importancion de pantallas
-import Home from '../screens/Home';
+import Home from '../screens/home';
 import PedidosScreen from '../screens/pedidos';
-import DetalleOrden from '../screens/pedidosDetalle';
 import Configuracion from '../screens/configuraciones';
+import DetalleOrden from '../screens/pedidosDetalle'
 
 //Variable para usar la libreria
 const Tab = createBottomTabNavigator();

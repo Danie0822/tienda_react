@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native';
 import CardOrder from '../components/cardOrder';
 import { fetchOrders } from '../controller/publica/estadoPedidos';
 import useApi from '../controller/utilis/useApi';
 
-const PedidosScreen = () => {
+const PedidosScreen = ({navigation}) => {
   const { fetchData } = useApi(); 
   const [selectedTab, setSelectedTab] = useState('Preparandose');
   const [orders, setOrders] = useState([]);
@@ -23,11 +24,24 @@ const PedidosScreen = () => {
     }
   };
 
+  const handlePress = async (id_pedido) => {
+    try {
+      await AsyncStorage.setItem("id_pedido", id_pedido.toString());
+      navigation.navigate('DetalleOrden');
+    } catch (error) {
+      Alert.alert('Error:', error.message);
+    }
+  };
+
+  useEffect(() =>{
+    handleTabClick('Preparandose');
+  }, []);
+
   const renderItem = ({ item }) => (
     <CardOrder
       orderNumber={item.id_pedido}
       orderDate={item.fecha_pedido}
-      onPress={() => alert('Detalles del pedido')}
+      onPress={() => handlePress(item.id_pedido)}
     />
   );
 

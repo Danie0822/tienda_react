@@ -1,56 +1,37 @@
-// OrderDetail.js
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import CustomFlecha from '../components/regresar';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import ProductCard from '../components/cardProductOrder';
+import { fetchOrderInfo } from '../controller/publica/detalleProductoPedido';
+import useApi from '../controller/utilis/useApi';
 
 const DetalleOrden = ({ navigation }) => {
-  const products = [
-    {
-      image: 'https://link-to-image1.com',
-      name: 'CHLOÉ SIGNATURE',
-      brand: 'Chloé',
-      price: '$56.00',
-      quantity: 1,
-    },
-    {
-      image: 'https://link-to-image2.com',
-      name: 'GOOD GIRL BLUSH',
-      brand: 'Carolina Herrera',
-      price: '$99.95',
-      quantity: 1,
-    },
-    {
-      image: 'https://link-to-image3.com',
-      name: 'SPICE BOMB',
-      brand: 'Viktor Rolf',
-      price: '$99.95',
-      quantity: 1,
-    },
-    {
-      image: 'https://link-to-image4.com',
-      name: 'ACQUA ESSENZIALE BLU',
-      brand: 'Salvatore Ferragamo',
-      price: '$100.00',
-      quantity: 1,
-    },
-    {
-      image: 'https://link-to-image4.com',
-      name: 'ACQUA ESSENZIALE BLU',
-      brand: 'Salvatore Ferragamo',
-      price: '$100.00',
-      quantity: 1,
-    },
-  ];
+  const { fetchData } = useApi(); // Correctamente usando el hook dentro del componente
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadOrderInfo = async () => {
+      try {
+        const fetchedProducts = await fetchOrderInfo(fetchData);
+        setProducts(fetchedProducts);
+      } catch (error) {
+        Alert.alert('Error al cargar', error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadOrderInfo();
+  }, []);
 
   const renderItem = ({ item }) => (
     <ProductCard
-      image={item.image}
-      name={item.name}
-      brand={item.brand}
-      price={item.price}
-      quantity={item.quantity}
+      image={item.ruta_imagen}
+      name={item.nombre_producto}
+      brand={item.marca}
+      price={item.precio}
+      quantity={item.cantidad}
     />
   );
 
@@ -60,27 +41,32 @@ const DetalleOrden = ({ navigation }) => {
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <MaterialIcons name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.title}>  Detalle pedido</Text>
+        <Text style={styles.title}>Detalle pedido</Text>
         <View style={styles.spacer} />
       </View>
-      <FlatList
-        data={products}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.listContainer}
-      />
-      <View style={styles.summary}>
-        <Text style={styles.sub}>Subtotal 
-          <Text style={styles.text}> $155.95</Text>
-        </Text>
-        <Text style={styles.sub}>Costo de envío 
-          <Text style={styles.text}> $0.00</Text>
-        </Text>
-        <Text style={styles.sub}>Total 
-          <Text style={styles.text}> $155.95</Text>
-        </Text>
-
-      </View>
+      {loading ? (
+        <Text>Cargando...</Text>
+      ) : (
+        <>
+          <FlatList
+            data={products}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.listContainer}
+          />
+          <View style={styles.summary}>
+            <Text style={styles.sub}>Subtotal 
+              <Text style={styles.text}> $155.95</Text>
+            </Text>
+            <Text style={styles.sub}>Costo de envío 
+              <Text style={styles.text}> $0.00</Text>
+            </Text>
+            <Text style={styles.sub}>Total 
+              <Text style={styles.text}> $155.95</Text>
+            </Text>
+          </View>
+        </>
+      )}
     </View>
   );
 };
