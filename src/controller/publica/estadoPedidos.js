@@ -1,13 +1,11 @@
-// utils/api.js
+// src/controller/publica/fetchOrders.js
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import useApi from '../utilis/useApi';
-import apiConfig from '../utilis/apiConfig';
 import { Alert } from 'react-native';
+import apiConfig from '../utilis/apiConfig';
 
-const baseUrl = apiConfig.baseURL;
-
-export async function estados(estado) {
-    const { fetchData } = useApi();
+//Funcion que obtiene todos los datos acerca de los pedidos en diferentes estados
+export const fetchOrders = async (fetchData, estado) => {
+    //Accedrmos al id cliente que esta en sesion storage al iniciar sesion
     const idCliente = await AsyncStorage.getItem("id_cliente");
 
     if (!idCliente) {
@@ -15,7 +13,7 @@ export async function estados(estado) {
         return [];
     }
 
-    const url = `${baseUrl}/view/status/${estado}/${idCliente}`;
+    const url = `/pedidos/view/status/${estado}/${idCliente}`;
 
     try {
         const { success, data } = await fetchData(url);
@@ -28,4 +26,4 @@ export async function estados(estado) {
         Alert.alert('Error:', error.message);
         return [];
     }
-}
+};

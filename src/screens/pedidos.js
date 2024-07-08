@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native';
 import CardOrder from '../components/cardOrder';
-import { estados } from '../controller/publica/estadoPedidos';
+import { fetchOrders } from '../controller/publica/estadoPedidos';
+import useApi from '../controller/utilis/useApi';
 
 const PedidosScreen = () => {
-  const [selectedTab, setSelectedTab] = useState('Preparándose');
+  const { fetchData } = useApi(); 
+  const [selectedTab, setSelectedTab] = useState('Preparandose');
   const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    fetchOrders(selectedTab);
-  }, [selectedTab]);
-
-  const fetchOrders = async (estado) => {
-    const fetchedOrders = await estados(estado);
-    setOrders(fetchedOrders);
+  const handleTabClick = async (estado) => {
+    setSelectedTab(estado);
+    setIsLoading(true);
+    try {
+      const fetchedOrders = await fetchOrders(fetchData, estado);
+      setOrders(fetchedOrders);
+    } catch (error) {
+      Alert.alert('Error al cargar', error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const renderItem = ({ item }) => (
@@ -29,22 +36,25 @@ const PedidosScreen = () => {
       <Text style={styles.title}>Pedidos</Text>
       <View style={styles.tabContainer}>
         <TouchableOpacity
-          style={[styles.tab, selectedTab === 'Preparándose' && styles.activeTab]}
-          onPress={() => setSelectedTab('Preparándose')}
+          style={[styles.tab, selectedTab === 'Preparandose' && styles.activeTab]}
+          onPress={() => handleTabClick('Preparandose')}
+          disabled={isLoading}
         >
-          <Text style={[styles.tabText, selectedTab === 'Preparándose' && styles.activeTabText]}>Preparándose</Text>
+          <Text style={[styles.tabText, selectedTab === 'Preparandose' && styles.activeTabText]}>Preparandose</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tab, selectedTab === 'Enviando' && styles.activeTab]}
-          onPress={() => setSelectedTab('Enviando')}
+          onPress={() => handleTabClick('Enviando')}
+          disabled={isLoading}
         >
           <Text style={[styles.tabText, selectedTab === 'Enviando' && styles.activeTabText]}>Enviando</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.tab, selectedTab === 'Finalizados' && styles.activeTab]}
-          onPress={() => setSelectedTab('Finalizados')}
+          style={[styles.tab, selectedTab === 'Finalizado' && styles.activeTab]}
+          onPress={() => handleTabClick('Finalizado')}
+          disabled={isLoading}
         >
-          <Text style={[styles.tabText, selectedTab === 'Finalizados' && styles.activeTabText]}>Finalizados</Text>
+          <Text style={[styles.tabText, selectedTab === 'Finalizado' && styles.activeTabText]}>Finalizados</Text>
         </TouchableOpacity>
       </View>
       <FlatList
