@@ -1,14 +1,51 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CustomFlecha from '../components/regresar';
 import CustomButton from '../components/customButton';
+import { fetchInfoCliente } from '../controller/publica/detalleProductoCotroller';
+import apiConfig from '../controller/utilis/apiConfig';
 
+const baseURL = apiConfig.getBaseURL2();
 const { width, height } = Dimensions.get('window');
 
 const DetalleProducto = ({ }) => {
     const [cantidad, setCantidad] = useState(1);
     const navigation = useNavigation();
+    const { infoProducto } = fetchInfoCliente(); 
+    const [userInfo, setUserInfo] = useState(null);
+    
+    const fetchData = async () => {
+        try {
+            const response = await infoProducto();
+            if (response.success) {
+                const user = response.data[0];
+                const imageUrl = `${baseURL}${user.imagen}`;
+                console.log(user); 
+                setUserInfo({
+                    nm: user.nombre,// user.nombre,
+                    mr: user.marca,
+                    ct: user.categoria,
+                    ol: user.olor,
+                    pr: user.precio,
+                    cat: user.cantidad,
+                    ds: user.descripcion,
+                    im: imageUrl,
+
+                });
+            } else {
+                Alert.alert('Error al cargar:', 'No se pudo cargar la información del cliente.');
+            }
+        } catch (error) {
+            console.log(error)
+            Alert.alert('Error al cargar', error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+    
     const incrementar = () => setCantidad(cantidad + 1);
     const decrementar = () => {
         if (cantidad > 1) {
@@ -23,23 +60,23 @@ const DetalleProducto = ({ }) => {
         <View style={styles.cont}>
             <CustomFlecha />
             <View style={styles.containerImg}>
-                <Image source={require('../img/gucci.jpg')} style={styles.image} />
+                {userInfo && <Image source={{ uri: `${userInfo.im}` }} style={styles.image} />}
             </View>
             <View style={styles.container}>
-                <Text style={styles.textTitulo}>CHLOÉ SIGNATURE</Text>
+                <Text style={styles.textTitulo}>{ (userInfo ? userInfo.nm : "")}</Text>
                 <View style={styles.row}>
-                    <Text style={styles.textMarca}>Chloé</Text>
-                    <Text style={styles.textPrecio}>$100.95</Text>
+                    <Text style={styles.textMarca}>{userInfo ? userInfo.mr : ""}</Text>
+                    <Text style={styles.textPrecio}>{"$" + (userInfo ? userInfo.pr : "")}</Text>
                 </View>
             </View>
             <View style={styles.detalles}>
                 <View style={styles.detalleRow}>
                     <Text style={styles.categoria}>Categoría</Text>
-                    <Text style={styles.dato}>Eau de parfum</Text>
+                    <Text style={styles.dato}>{userInfo ? userInfo.ct : ""}</Text>
                 </View>
                 <View style={styles.detalleRow}>
                     <Text style={styles.categoria}>Olor</Text>
-                    <Text style={styles.dato}>Floral</Text>
+                    <Text style={styles.dato}>{userInfo ? userInfo.ol : ""}</Text>
                 </View>
                 <View style={styles.cantidadRow}>
                     <Text style={styles.categoria}>Cantidad</Text>
@@ -55,14 +92,13 @@ const DetalleProducto = ({ }) => {
                 </View>
             </View>
             <Text style={styles.descripcion}>
-                Chloé signature es una de las mejores fragancias de todos los tiempos, con su fragancia floral, tú mujer tendrás poder de lograrlo todo.
+                {userInfo ? userInfo.ds : "Cargando descripción..."}
             </Text>
             <View style={styles.buttonContainer}>
-            <CustomButton
-                text="Agregar al carrito"
-                onPress={handlePress}
-            />
-
+                <CustomButton
+                    text="Agregar al carrito"
+                    onPress={handlePress}
+                />
             </View>
         </View>
     );
