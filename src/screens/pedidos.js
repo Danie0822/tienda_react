@@ -1,42 +1,28 @@
-// OrdersScreen.js
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native';
 import CardOrder from '../components/cardOrder';
+import { estados } from '../controller/publica/estadoPedidos';
 
 const PedidosScreen = () => {
   const [selectedTab, setSelectedTab] = useState('Preparándose');
-  const [orders, setOrders] = useState([
-    {
-      orderNumber: 1,
-      orderDate: '12 de mayo de 2024',
-      paymentMethod: 'Contra entrega',
-      status: 'Preparándose',
-    },
-    {
-      orderNumber: 2,
-      orderDate: '10 de mayo de 2024',
-      paymentMethod: 'Contra entrega',
-      status: 'Enviando',
-    },
-    {
-      orderNumber: 3,
-      orderDate: '08 de mayo de 2024',
-      paymentMethod: 'Tarjeta de crédito',
-      status: 'Finalizados',
-    },
-    // Agrega más pedidos aquí
-  ]);
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    fetchOrders(selectedTab);
+  }, [selectedTab]);
+
+  const fetchOrders = async (estado) => {
+    const fetchedOrders = await estados(estado);
+    setOrders(fetchedOrders);
+  };
 
   const renderItem = ({ item }) => (
     <CardOrder
-      orderNumber={item.orderNumber}
-      orderDate={item.orderDate}
-      paymentMethod={item.paymentMethod}
+      orderNumber={item.id_pedido}
+      orderDate={item.fecha_pedido}
       onPress={() => alert('Detalles del pedido')}
     />
   );
-
-  const filteredOrders = orders.filter(order => order.status === selectedTab);
 
   return (
     <View style={styles.container}>
@@ -62,9 +48,9 @@ const PedidosScreen = () => {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={filteredOrders}
+        data={orders}
         renderItem={renderItem}
-        keyExtractor={item => item.orderNumber.toString()}
+        keyExtractor={item => item.id_pedido.toString()}
         contentContainerStyle={styles.listContainer}
       />
     </View>

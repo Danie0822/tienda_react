@@ -2,12 +2,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const CardOrder = ({ orderNumber, orderDate, paymentMethod, onPress }) => {
+const CardOrder = ({ orderNumber, orderDate, onPress }) => {
   return (
     <View style={styles.card}>
       <Text style={styles.orderNumber}>Pedido número #{orderNumber}</Text>
       <Text style={styles.orderDate}>Fecha del pedido: {orderDate}</Text>
-      <Text style={styles.paymentMethod}>Método de pago: {paymentMethod}</Text>
+      <Text style={styles.paymentMethod}>Método de pago: Contra-entrega</Text>
       <TouchableOpacity style={styles.button} onPress={onPress}>
         <Text style={styles.buttonText}>Ver detalles</Text>
       </TouchableOpacity>

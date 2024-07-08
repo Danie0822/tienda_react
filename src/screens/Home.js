@@ -3,42 +3,27 @@ import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert, FlatList }
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Input from '../components/input';
 import CardProduct from '../components/cardProducts';
+import { fetchProducts } from '../controller/publica/listaProductos';
 import useApi from '../controller/utilis/useApi';
-import apiConfig from '../controller/utilis/apiConfig';
-
-const baseURL = apiConfig.getBaseURL2();
 
 const { width } = Dimensions.get('window');
 
 const Home = () => {
+    const { fetchData } = useApi();  // Correctamente usando el hook dentro del componente
     const [search, setSearch] = useState('');
     const [products, setProducts] = useState([]);
-    const { fetchData } = useApi(); 
-    const url = `/inventario/vistaPrueba/view/`;
 
-    const fetchProducts = async () => {
+    const loadProducts = async () => {
         try {
-            const response = await fetchData(url);
-            if (response.success) {
-                const formattedProducts = response.data.map(product => {
-                    const imageUrl = `${baseURL}${product.ruta_imagen}`; 
-                    return {
-                        ...product,
-                        ruta_imagen: imageUrl
-                    };
-                });
-                setProducts(formattedProducts);
-            } else {
-                Alert.alert('Error al cargar:', 'Error al cargar los datos de los productos');
-            }
+            const fetchedProducts = await fetchProducts(fetchData);
+            setProducts(fetchedProducts);
         } catch (error) {
-            Alert.alert('Error fetching products:', error.message);
+            Alert.alert('Error al cargar', error.message);
         }
     };
-    
 
     useEffect(() => {
-        fetchProducts();
+        loadProducts();
     }, []);
 
     const renderItem = ({ item }) => (
