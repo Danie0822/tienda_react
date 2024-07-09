@@ -7,7 +7,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Home from '../screens/home';
 import PedidosScreen from '../screens/pedidos';
 import Configuracion from '../screens/configuraciones';
-import DetalleOrden from '../screens/pedidosDetalle'
 
 //Variable para usar la libreria
 const Tab = createBottomTabNavigator();

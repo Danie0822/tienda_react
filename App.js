@@ -14,6 +14,7 @@ import DetalleProducto from './src/screens/detalleProducto';
 import Carrito from './src/screens/carrito';
 import EditPerfil from './src/screens/editarPerfil';
 import Configuraciones from './src/screens/configuraciones';
+import DetalleOrden from './src/screens/pedidosDetalle';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -85,6 +86,7 @@ export default function App() {
         <Stack.Screen name="Configuraciones" component={Configuraciones}/>
         <Stack.Screen name="DetalleProducto" component={DetalleProducto}/>
         <Stack.Screen name="Carrito" component={Carrito}/>
+        <Stack.Screen name="DetalleOrden" component={DetalleOrden}/>
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>

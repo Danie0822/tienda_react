@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import ProductCard from '../components/cardProductOrder';
 import { fetchOrderInfo } from '../controller/publica/detalleProductoPedido';
 import useApi from '../controller/utilis/useApi';
 
-const DetalleOrden = ({ navigation }) => {
+const DetalleOrden = ({}) => {
   const { fetchData } = useApi(); // Correctamente usando el hook dentro del componente
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const loadOrderInfo = async () => {
