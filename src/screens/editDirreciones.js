@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import CustomTextInput from '../components/customInput';
 import CustomButton from '../components/customButton';
 import CustomFlecha from '../components/regresar';
-import { usePerfil } from '../controller/publica/editarPerfil'; 
+import { useDirrecion } from '../controller/publica/editDirreciones'; 
 import { fetchInfo } from '../controller/publica/cargardDirrecionesEdit';
 
 const { width } = Dimensions.get('window');
@@ -17,7 +17,7 @@ const EditDirrecion  = () => {
     const [codigo, setcodigo] = useState('');
     const [instruciones, setinstruciones] = useState('');
     const navigation = useNavigation();
-    const { registrarEdit } = usePerfil();
+    const { dirrecionesEdit } = useDirrecion();
 
     const fetchData = async () => {
         try {
@@ -44,10 +44,10 @@ const EditDirrecion  = () => {
 
 
     const handlePressRegistrar = async () => {
-        const { success, message } = await registrarEdit(nombre, apellido, email, telefono);
+        const { success, message } = await dirrecionesEdit(nombre, direccion, codigo, telefono, instruciones);
         if (success) {
-            Alert.alert("Registro exitoso", "Tu cuenta ha sido creada con éxito", [
-                { text: "OK", onPress: () => navigation.navigate('Configuraciones') }
+            Alert.alert("Registro exitoso", "Tu dirrecion editada", [
+                { text: "OK", onPress: () => navigation.navigate('Addresses') }
             ]);
         } else {
             Alert.alert("Error", message);

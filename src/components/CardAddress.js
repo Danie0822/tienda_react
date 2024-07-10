@@ -1,20 +1,67 @@
-// CardAddress.js
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import { PanGestureHandler, State } from 'react-native-gesture-handler';
 
-const CardAddress = ({ title, address, onEdit }) => {
+const CardAddress = ({ title, address, onEdit, onSwipeRight }) => {
+  const [backgroundColor, setBackgroundColor] = useState('#f2f2f2');
+  const translateX = new Animated.Value(0);
+
+  const handleGesture = ({ nativeEvent }) => {
+    if (nativeEvent.translationX > 0) {
+      translateX.setValue(nativeEvent.translationX);
+      setBackgroundColor('#ffcccc'); 
+    }
+
+    if (nativeEvent.state === State.END) {
+      if (nativeEvent.translationX > 50) {
+        animateSwipe();
+      } else {
+        resetPosition();
+      }
+    }
+  };
+
+  const animateSwipe = () => {
+    Animated.timing(translateX, {
+      toValue: 500, 
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => {
+      onSwipeRight();
+    });
+  };
+
+  const resetPosition = () => {
+    Animated.spring(translateX, {
+      toValue: 0,
+      useNativeDriver: true,
+    }).start(() => {
+      setBackgroundColor('#f2f2f2'); 
+    });
+  };
+
   return (
-    <View style={styles.card}>
-      <View style={styles.cardContent}>
-        <View>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.address}>{address}</Text>
+    <PanGestureHandler onGestureEvent={handleGesture} onHandlerStateChange={handleGesture}>
+      <Animated.View
+        style={[
+          styles.card,
+          {
+            transform: [{ translateX }],
+            backgroundColor: backgroundColor,
+          },
+        ]}
+      >
+        <View style={styles.cardContent}>
+          <View>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.address}>{address}</Text>
+          </View>
+          <TouchableOpacity style={styles.button} onPress={onEdit}>
+            <Text style={styles.buttonText}>Editar</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.button} onPress={onEdit}>
-          <Text style={styles.buttonText}>Editar</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      </Animated.View>
+    </PanGestureHandler>
   );
 };
 
@@ -24,6 +71,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     marginBottom: 20,
+    overflow: 'hidden', // Para ocultar el contenido que se desborda
   },
   cardContent: {
     flexDirection: 'row',

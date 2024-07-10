@@ -44,7 +44,7 @@ const EditPerfil = () => {
     const handlePressRegistrar = async () => {
         const { success, message } = await registrarEdit(nombre, apellido, email, telefono);
         if (success) {
-            Alert.alert("Registro exitoso", "Tu cuenta ha sido creada con éxito", [
+            Alert.alert("Registro exitoso", "Tu cuenta ha sido editada con éxito", [
                 { text: "OK", onPress: () => navigation.navigate('Configuraciones') }
             ]);
         } else {

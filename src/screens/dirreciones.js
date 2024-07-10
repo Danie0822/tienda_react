@@ -5,8 +5,9 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import CustomFlecha from '../components/regresar';
 import CardAddress from '../components/CardAddress';
 import { fetchInfoCliente } from '../controller/publica/dirreciones';
-
+import { DeleteDirrecion } from '../controller/publica/eleminarDirrecion'; 
 const AddressesScreen = () => {
+  const { DirrecionDelete } = DeleteDirrecion();
   const [addresses, setAddresses] = useState([]);
   const { infoCliente } = fetchInfoCliente();
   const navigation = useNavigation();
@@ -40,6 +41,16 @@ const AddressesScreen = () => {
     navigation.navigate('RegistrarDirreciones');
   };
 
+const handlePressEleminar = async (id) => {
+        const { success, message } = await DirrecionDelete(id);
+        if (success) {
+            Alert.alert("Registro exitoso", "Tu dirrecion Eliminada", [
+                { text: "OK", onPress: () => fetchData() }
+            ]);
+        } else {
+            Alert.alert("Error", message);
+        }
+    };
   const handleEdit = async (id) => {
     await AsyncStorage.setItem("id_direccion", id.toString());
     navigation.navigate('EditDirrecion');
@@ -50,6 +61,7 @@ const AddressesScreen = () => {
       title={item.title}
       address={item.address}
       onEdit={() => handleEdit(item.id)}
+      onSwipeRight={() => { handlePressEleminar(item.id)}}
     />
   );
 
