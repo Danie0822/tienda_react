@@ -8,3 +8,4 @@ npx expo install expo-splash-screen
 npm install react-native-paper
 npm install react-native@0.74.3
 npm install expo@~51.0.17      
+npm install @react-native-picker/picker

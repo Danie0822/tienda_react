@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import InputFilter from '../components/inputFilter';
+import { useNavigation } from '@react-navigation/native';
 import CardProduct from '../components/cardProducts';
 import { fetchProducts } from '../controller/publica/listaProductos';
 import useApi from '../controller/utilis/useApi';
@@ -12,6 +13,7 @@ const Home = () => {
     const { fetchData } = useApi(); //Llamamos los metodos de la api para llamar al servidor
     const [search, setSearch] = useState('');
     const [products, setProducts] = useState([]);
+    const navigation = useNavigation();
     
     //Inicializamos los productos cuando carga la pantalla
     useEffect(() => {
@@ -26,6 +28,11 @@ const Home = () => {
 
         loadProducts();
     }, []);
+
+    const handlePress = () => {
+        navigation.navigate('ExitoScreen');
+    };
+    
 
     //Filtramos los productos por el nombre obtenido del array
     const filteredProducts = search ? products.filter(product =>
@@ -46,7 +53,7 @@ const Home = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Essenzial</Text>
-            <TouchableOpacity style={styles.button} onPress={() => Alert.alert('Button with adjusted color pressed')}>
+            <TouchableOpacity style={styles.button} onPress={handlePress}>
                 <MaterialCommunityIcons name="cart" size={18} color="white" />
             </TouchableOpacity>
             <InputFilter
