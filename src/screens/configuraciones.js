@@ -37,6 +37,9 @@ const Configuracion = ({ }) => {
     const handleEditarPerfil = () => {
         navigation.navigate('EditPerfil');
     };
+    const handleDirreciones = () => {
+        navigation.navigate('Addresses');
+    };
 
     return (
         <View style={styles.container}>
@@ -61,7 +64,7 @@ const Configuracion = ({ }) => {
                 <Text style={styles.buttonText}>Información personal</Text>
                 <MaterialCommunityIcons name="arrow-right" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleDirreciones}>
                 <Text style={styles.buttonText}>Direcciones</Text>
                 <MaterialCommunityIcons name="arrow-right" size={24} color="black" />
             </TouchableOpacity>
