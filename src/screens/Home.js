@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Input from '../components/input';
+import InputFilter from '../components/inputFilter';
 import CardProduct from '../components/cardProducts';
 import { fetchProducts } from '../controller/publica/listaProductos';
 import useApi from '../controller/utilis/useApi';
@@ -9,57 +9,62 @@ import useApi from '../controller/utilis/useApi';
 const { width } = Dimensions.get('window');
 
 const Home = () => {
-    const { fetchData } = useApi();  // Correctamente usando el hook dentro del componente
+    const { fetchData } = useApi(); //Llamamos los metodos de la api para llamar al servidor
     const [search, setSearch] = useState('');
     const [products, setProducts] = useState([]);
-
-    const loadProducts = async () => {
-        try {
-            const fetchedProducts = await fetchProducts(fetchData);
-            setProducts(fetchedProducts);
-        } catch (error) {
-            Alert.alert('Error al cargar', error.message);
-        }
-    };
-
+    
+    //Inicializamos los productos cuando carga la pantalla
     useEffect(() => {
+        const loadProducts = async () => {
+            try {
+                const fetchedProducts = await fetchProducts(fetchData);
+                setProducts(fetchedProducts);
+            } catch (error) {
+                Alert.alert('Error al cargar', error.message);
+            }
+        };
+
         loadProducts();
     }, []);
 
+    //Filtramos los productos por el nombre obtenido del array
+    const filteredProducts = search ? products.filter(product =>
+        product.nombre_inventario.toLowerCase().includes(search.toLowerCase())
+    ) : products;
+
+    //Renderizamos la card
     const renderItem = ({ item }) => (
         <CardProduct
-            id_inventario = {item.id_inventario}
+            id_inventario={item.id_inventario}
             nombre={item.nombre_inventario}
             marca={item.nombre_marca}
             precio={item.precio_inventario}
             imagen={item.ruta_imagen}
         />
     );
-    
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Essenzial</Text>
             <TouchableOpacity style={styles.button} onPress={() => Alert.alert('Button with adjusted color pressed')}>
                 <MaterialCommunityIcons name="cart" size={18} color="white" />
             </TouchableOpacity>
-            <Input
-                placeholder="Buscar"
-                nombre={search}
-                setNombre={setSearch}
+            <InputFilter
+                placeholder="Buscar productos"
+                value={search}
+                onChangeText={setSearch}
             />
             <View style={styles.header}>
                 <Text style={styles.title2}>Productos</Text>
             </View>
-            <View>
-                <FlatList
-                    data={products}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id_inventario.toString()}
-                    numColumns={2}
-                    columnWrapperStyle={styles.row}
-                    contentContainerStyle={styles.listContainer}
-                />
-            </View>
+            <FlatList
+                data={filteredProducts}
+                renderItem={renderItem}
+                keyExtractor={item => item.id_inventario.toString()}
+                numColumns={2}
+                columnWrapperStyle={styles.row}
+                contentContainerStyle={styles.listContainer}
+            />
         </View>
     );
 };

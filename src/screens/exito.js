@@ -48,11 +48,14 @@ const styles = StyleSheet.create({
     },
     container2: {
         backgroundColor: '#F4F4F4',
-        borderRadius: 16,
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
         padding: 20,
         alignItems: 'center',
-        width: '100',
-        height: '30%',
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        height: '40%',
         justifyContent: 'space-between',
     },
     sub: {
@@ -60,12 +63,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
         textAlign: 'center',
-        marginBottom: 20
+        marginBottom: 20,
     },
     button: {
         marginTop: 20,
-        width: '100%'
-    }
+        width: '100%',
+    },
 });
 
 export default ExitoScreen;
