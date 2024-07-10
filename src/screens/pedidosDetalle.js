@@ -6,17 +6,22 @@ import ProductCard from '../components/cardProductOrder';
 import { fetchOrderInfo } from '../controller/publica/detalleProductoPedido';
 import useApi from '../controller/utilis/useApi';
 
+
+//Funcion para setear datos de detalle orden
 const DetalleOrden = ({}) => {
-  const { fetchData } = useApi(); // Correctamente usando el hook dentro del componente
+  const { fetchData } = useApi();
   const [products, setProducts] = useState([]);
+  const [pago, setTotalPago] = useState(0);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
 
+  //Funcion que se ejecuta al cargar la pantalla
   useEffect(() => {
     const loadOrderInfo = async () => {
       try {
-        const fetchedProducts = await fetchOrderInfo(fetchData);
-        setProducts(fetchedProducts);
+        const { products, total_pago } = await fetchOrderInfo(fetchData);
+        setProducts(products);
+        setTotalPago(total_pago);
       } catch (error) {
         Alert.alert('Error al cargar', error.message);
       } finally {
@@ -30,10 +35,10 @@ const DetalleOrden = ({}) => {
   const renderItem = ({ item }) => (
     <ProductCard
       image={item.ruta_imagen}
-      name={item.nombre_producto}
-      brand={item.marca}
-      price={item.precio}
-      quantity={item.cantidad}
+      name={item.nombre_inventario}
+      brand={item.nombre_marca}
+      price={item.precio_inventario}
+      quantity={item.cantidad_producto}
     />
   );
 
@@ -57,15 +62,14 @@ const DetalleOrden = ({}) => {
             contentContainerStyle={styles.listContainer}
           />
           <View style={styles.summary}>
-            <Text style={styles.sub}>Subtotal 
-              <Text style={styles.text}> $155.95</Text>
-            </Text>
-            <Text style={styles.sub}>Costo de envío 
-              <Text style={styles.text}> $0.00</Text>
-            </Text>
-            <Text style={styles.sub}>Total 
-              <Text style={styles.text}> $155.95</Text>
-            </Text>
+            <View style={styles.row}>
+              <Text style={styles.label}>Costo de envío</Text>
+              <Text style={styles.value}>$0.00</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.label}>Total</Text>
+              <Text style={styles.value}>${pago}</Text>
+            </View>
           </View>
         </>
       )}
@@ -109,14 +113,17 @@ const styles = StyleSheet.create({
     borderTopColor: '#e0e0e0',
     paddingTop: 20,
   },
-  sub: {
+  row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 5,
-    fontWeight: '600'
   },
-  text: {
-    fontSize: 16
+  label: {
+    fontWeight: '600',
+    fontSize: 16,
+  },
+  value: {
+    fontSize: 16,
   },
 });
 
