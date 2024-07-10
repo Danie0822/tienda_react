@@ -9,7 +9,7 @@ const ProductCard = ({ image, name, brand, price, quantity }) => {
       <View style={styles.info}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.brand}>{brand}</Text>
-        <Text style={styles.price}>{price}</Text>
+        <Text style={styles.price}>${price}</Text>
         <Text style={styles.quantity}>Cantidad: {quantity}</Text>
       </View>
     </View>
