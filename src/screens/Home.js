@@ -30,7 +30,7 @@ const Home = () => {
     }, []);
 
     const handlePress = () => {
-        navigation.navigate('ExitoScreen');
+        navigation.navigate('Carrito');
     };
     
 

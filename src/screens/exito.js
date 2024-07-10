@@ -15,7 +15,7 @@ const ExitoScreen = () => {
             <Text style={styles.titulo}>¡Tu pedido fue enviado con éxito!</Text>
             <Image source={require('../img/vector.png')} style={styles.image} />
             <View style={styles.container2}>
-                <Text style={styles.sub}>Pronto recibirás un correo de confirmación</Text>
+                <Text style={styles.sub}>Gracias por tu compra, esperamos vuelvas pronto</Text>
                 <CustomButton
                     text="Volver al inicio"
                     onPress={handlerPress}
@@ -31,8 +31,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#EDD146',
         alignItems: 'center',
-        padding: 20,
-        justifyContent: 'space-between',
+        padding: 20
     },
     titulo: {
         color: '#000',
@@ -43,8 +42,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: 250,
-        height: 300,
-        marginVertical: 20,
+        height: 360
     },
     container2: {
         backgroundColor: '#F4F4F4',
@@ -54,16 +52,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         bottom: 0,
-        width: '100%',
-        height: '40%',
-        justifyContent: 'space-between',
+        width: '100',
+        height: '40%'
     },
     sub: {
         color: '#000',
         fontWeight: 'bold',
         fontSize: 20,
         textAlign: 'center',
-        marginBottom: 20,
+        marginBottom: 40,
     },
     button: {
         marginTop: 20,
