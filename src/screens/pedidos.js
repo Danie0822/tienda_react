@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -6,8 +6,8 @@ import CardOrder from '../components/cardOrder';
 import { fetchOrders } from '../controller/publica/estadoPedidos';
 import useApi from '../controller/utilis/useApi';
 
-const PedidosScreen = ({}) => {
-  const { fetchData } = useApi(); 
+const PedidosScreen = ({ }) => {
+  const { fetchData } = useApi();
   const [selectedTab, setSelectedTab] = useState('Preparandose');
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +35,7 @@ const PedidosScreen = ({}) => {
     }
   };
 
-  useEffect(() =>{
+  useEffect(() => {
     handleTabClick('Preparandose');
   }, []);
 

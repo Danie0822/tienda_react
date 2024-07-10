@@ -18,6 +18,7 @@ import DetalleOrden from './src/screens/pedidosDetalle';
 import AddressesScreen from './src/screens/dirreciones';
 import RegistrarDirreciones from './src/screens/registrarDirreciones';
 import EditDirrecion from './src/screens/editDirreciones';
+import ExitoScreen from './src/screens/exito';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -93,6 +94,7 @@ export default function App() {
         <Stack.Screen name="EditDirrecion" component={EditDirrecion}/>
         <Stack.Screen name="RegistrarDirreciones" component={RegistrarDirreciones}/>
         <Stack.Screen name="DetalleOrden" component={DetalleOrden}/>
+        <Stack.Screen name="ExitoScreen" component={ExitoScreen}/>
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>

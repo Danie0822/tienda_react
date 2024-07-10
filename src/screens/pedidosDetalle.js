@@ -8,7 +8,7 @@ import useApi from '../controller/utilis/useApi';
 
 
 //Funcion para setear datos de detalle orden
-const DetalleOrden = ({}) => {
+const DetalleOrden = ({ }) => {
   const { fetchData } = useApi();
   const [products, setProducts] = useState([]);
   const [pago, setTotalPago] = useState(0);
@@ -32,6 +32,7 @@ const DetalleOrden = ({}) => {
     loadOrderInfo();
   }, []);
 
+  //Renderizamos las tarjetas 
   const renderItem = ({ item }) => (
     <ProductCard
       image={item.ruta_imagen}
@@ -61,14 +62,14 @@ const DetalleOrden = ({}) => {
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={styles.listContainer}
           />
-          <View style={styles.summary}>
-            <View style={styles.row}>
+          <View style={styles.espacioTexto}>
+            <View style={styles.fila}>
               <Text style={styles.label}>Costo de envío</Text>
-              <Text style={styles.value}>$0.00</Text>
+              <Text style={styles.valor}>$0.00</Text>
             </View>
-            <View style={styles.row}>
+            <View style={styles.fila}>
               <Text style={styles.label}>Total</Text>
-              <Text style={styles.value}>${pago}</Text>
+              <Text style={styles.valor}>${pago}</Text>
             </View>
           </View>
         </>
@@ -107,13 +108,13 @@ const styles = StyleSheet.create({
   listContainer: {
     paddingBottom: 20,
   },
-  summary: {
+  espacioTexto: {
     marginTop: 20,
     borderTopWidth: 1,
     borderTopColor: '#e0e0e0',
     paddingTop: 20,
   },
-  row: {
+  fila: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 5,
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
   },
-  value: {
+  valor: {
     fontSize: 16,
   },
 });
