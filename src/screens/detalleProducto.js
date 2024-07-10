@@ -11,8 +11,10 @@ const { width, height } = Dimensions.get('window');
 
 const DetalleProducto = ({ }) => {
     const [cantidad, setCantidad] = useState(1);
+    const [costo, setCosto] = useState(null);
+    const [cantidadVal, setCantidadVal] = useState(null);
     const navigation = useNavigation();
-    const { infoProducto } = fetchInfoCliente(); 
+    const { infoProducto, agregarCarrito } = fetchInfoCliente(); 
     const [userInfo, setUserInfo] = useState(null);
     
     const fetchData = async () => {
@@ -23,7 +25,7 @@ const DetalleProducto = ({ }) => {
                 const imageUrl = `${baseURL}${user.imagen}`;
                 console.log(user); 
                 setUserInfo({
-                    nm: user.nombre,// user.nombre,
+                    nm: user.nombre,
                     mr: user.marca,
                     ct: user.categoria,
                     ol: user.olor,
@@ -31,8 +33,9 @@ const DetalleProducto = ({ }) => {
                     cat: user.cantidad,
                     ds: user.descripcion,
                     im: imageUrl,
-
                 });
+                setCosto(user.precio);
+                setCantidadVal(user.cantidad); // Establecer el costo
             } else {
                 Alert.alert('Error al cargar:', 'No se pudo cargar la información del cliente.');
             }
@@ -52,8 +55,20 @@ const DetalleProducto = ({ }) => {
             setCantidad(cantidad - 1);
         }
     };
+
     const handlePress = () => {
         navigation.navigate('Carrito');
+    };
+    
+    const handlePressCarrito = async () => {
+        const { success, message } = await agregarCarrito(cantidad, costo,cantidadVal); // Pasar el costo aquí
+        if (success) {
+            Alert.alert("Agregado Exitoso", `Tus productos se han agregado al carrito. `, [
+                { text: "OK", onPress: () => navigation.navigate('Carrito') }
+            ]);
+        } else {
+            Alert.alert("Error", message);
+        }
     };
 
     return (
@@ -97,7 +112,7 @@ const DetalleProducto = ({ }) => {
             <View style={styles.buttonContainer}>
                 <CustomButton
                     text="Agregar al carrito"
-                    onPress={handlePress}
+                    onPress={handlePressCarrito} // Llamar a la función handlePressCarrito
                 />
             </View>
         </View>

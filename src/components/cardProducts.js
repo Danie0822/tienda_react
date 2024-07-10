@@ -1,14 +1,16 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
-const CardProduct = ({ nombre, marca, precio, imagen }) => {
+const CardProduct = ({ nombre, marca, precio, imagen , id_inventario}) => {
 
     const navigation = useNavigation();
 
     const handlePress = () => {
+        AsyncStorage.setItem("id_inventario", id_inventario.toString());
         navigation.navigate('DetalleProducto');
     };
 

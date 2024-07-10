@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 //Importancion de pantallas
-import Home from '../screens/home';
+import Home from '../screens/Home';
 import PedidosScreen from '../screens/pedidos';
 import Configuracion from '../screens/configuraciones';
 

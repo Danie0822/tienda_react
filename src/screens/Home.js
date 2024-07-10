@@ -28,13 +28,14 @@ const Home = () => {
 
     const renderItem = ({ item }) => (
         <CardProduct
+            id_inventario = {item.id_inventario}
             nombre={item.nombre_inventario}
             marca={item.nombre_marca}
             precio={item.precio_inventario}
             imagen={item.ruta_imagen}
         />
     );
-
+    
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Essenzial</Text>
