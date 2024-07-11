@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputFilter from '../components/inputFilter';
 import { useNavigation } from '@react-navigation/native';
 import CardProduct from '../components/cardProducts';
@@ -13,6 +14,7 @@ const Home = () => {
     const { fetchData } = useApi(); //Llamamos los metodos de la api para llamar al servidor
     const [search, setSearch] = useState('');
     const [products, setProducts] = useState([]);
+    const [nombreCliente, setNombreCliente] = useState('');
     const navigation = useNavigation();
     
     //Inicializamos los productos cuando carga la pantalla
@@ -26,7 +28,19 @@ const Home = () => {
             }
         };
 
+        const loadNombreCliente = async () => {
+            try {
+                const nombre = await AsyncStorage.getItem('nombre_cliente');
+                if (nombre) {
+                    setNombreCliente(nombre);
+                }
+            } catch (error) {
+                console.error('Error al cargar el nombre del cliente:', error);
+            }
+        };
+
         loadProducts();
+        loadNombreCliente();
     }, []);
 
     const handlePress = () => {
@@ -53,6 +67,7 @@ const Home = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Essenzial</Text>
+            <Text style={styles.name}>Bienvenido {nombreCliente}</Text>
             <TouchableOpacity style={styles.button} onPress={handlePress}>
                 <MaterialCommunityIcons name="cart" size={18} color="white" />
             </TouchableOpacity>
@@ -88,6 +103,14 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         marginLeft: 10,
         fontSize: 28,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: '#000',
+    },
+    name: {
+        alignSelf: 'flex-start',
+        marginLeft: 10,
+        fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 20,
         color: '#000',
