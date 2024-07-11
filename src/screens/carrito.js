@@ -6,7 +6,7 @@ import CustomButton from '../components/customButton';
 import CardCarrito from '../components/cardCarrito';
 import { fetchInfoCarrito } from '../controller/publica/carritoController';
 import apiConfig from '../controller/utilis/apiConfig';
-
+import { useNavigation } from '@react-navigation/native';
 const baseURL = apiConfig.getBaseURL2();
 
 const { width } = Dimensions.get('window');
@@ -17,9 +17,7 @@ const Carrito = () => {
     const [totalAmount, setTotalAmount] = useState(0);
     const [direcciones, setDirecciones] = useState([]);
     const { infoCarrito, infoTotal, deleteCarrito, obtenerDirecciones, finalizarPedido, handleDireccionChange } = fetchInfoCarrito();
-    const asd = async(algo) => { 
-        console.log(algo);
-    }
+    const navigation = useNavigation();
     const fetchData = async () => {
         try {
             const response = await infoCarrito();
@@ -62,7 +60,6 @@ const Carrito = () => {
             const response = await obtenerDirecciones();
             if (response.success) {
                 setDirecciones(response.data);
-                console.log(response.data);
                 if (response.data.length > 0) {
                     setSelectedValue(response.data[0].id_direccion); // Selecciona la primera dirección por defecto
                     handleDireccionChange(response.data[0].id_direccion);
@@ -79,7 +76,7 @@ const Carrito = () => {
         const { success, message } = await deleteCarrito(id_dp);
         if (success) {
             Alert.alert("Registro exitoso", "Tu producto ha sido eliminado", [
-                { text: "OK", onPress: () => fetchData() }
+                { text: "OK",  onPress: () => fetchData() }
             ]);
         } else {
             Alert.alert("Error", message);
@@ -112,7 +109,7 @@ const Carrito = () => {
         const { success, message } = await finalizarPedido(selectedValue);
         if (success) {
             Alert.alert("Pedido finalizado", "Tu pedido ha sido finalizado correctamente", [
-                { text: "OK" }
+                { text: "OK" , onPress: () => navigation.navigate('ExitoScreen')}
             ]);
         } else {
             Alert.alert("Error", message);
@@ -140,7 +137,7 @@ const Carrito = () => {
                     }}
                 >
                     {direcciones.map((direccion) => (
-                        <Picker.Item key={direccion.id} label={direccion.nombre_direccion} value={direccion.id} />
+                        <Picker.Item key={direccion.id_direccion} label={direccion.nombre_direccion} value={direccion.id_direccion} />
                     ))}
                 </Picker>
                 <View style={styles.pagos}>
