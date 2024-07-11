@@ -24,7 +24,6 @@ export const fetchInfo = () => {
                 if (response.success) {
                     return response;
                 } else {
-                    console.log(response);
                     Alert.alert('Error al cargar:', 'No se pudo cargar la información del cliente.');
                     return { success: false };
                 }

@@ -23,7 +23,6 @@ const DetalleProducto = ({ }) => {
             if (response.success) {
                 const user = response.data[0];
                 const imageUrl = `${baseURL}${user.imagen}`;
-                console.log(user); 
                 setUserInfo({
                     nm: user.nombre,
                     mr: user.marca,
