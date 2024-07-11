@@ -2,19 +2,19 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const CardCarrito = ({ producto, marca, imagen, total, cantidad  }) => {
+const CardCarrito = ({ producto, marca, imagen, total, cantidad, onRemove }) => {
     return (
         <View style={styles.itemContainer}>
-            <Image source={{uri:imagen}} style={styles.image} />
+            <Image source={{ uri: imagen }} style={styles.image} />
             <View style={styles.itemDetails}>
                 <Text style={styles.itemName}>{producto}</Text>
                 <Text style={styles.itemBrand}>{marca}</Text>
                 <View style={styles.priceQuantityContainer}>
                     <Text style={styles.itemPrice}>{total}</Text>
-                    <Text style={styles.itemQuantity}>Cantidad:{cantidad} </Text>
+                    <Text style={styles.itemQuantity}>Cantidad: {cantidad}</Text>
                 </View>
             </View>
-            <TouchableOpacity style={styles.removeButton}>
+            <TouchableOpacity style={styles.removeButton} onPress={onRemove}>
                 <Icon name="trash" size={20} color="#FFF" />
             </TouchableOpacity>
         </View>

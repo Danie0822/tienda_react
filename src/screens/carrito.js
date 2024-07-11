@@ -12,10 +12,14 @@ const baseURL = apiConfig.getBaseURL2();
 const { width } = Dimensions.get('window');
 
 const Carrito = () => {
-    const [selectedValue, setSelectedValue] = useState("method1");
+    const [selectedValue, setSelectedValue] = useState(null);
     const [carrito, setCarrito] = useState([]);
-    const {infoCarrito } = fetchInfoCarrito()
-
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [direcciones, setDirecciones] = useState([]);
+    const { infoCarrito, infoTotal, deleteCarrito, obtenerDirecciones, finalizarPedido, handleDireccionChange } = fetchInfoCarrito();
+    const asd = async(algo) => { 
+        console.log(algo);
+    }
     const fetchData = async () => {
         try {
             const response = await infoCarrito();
@@ -27,7 +31,7 @@ const Carrito = () => {
                     prod: carrito.producto,
                     cant: carrito.cantidad,
                     marc: carrito.marca,
-                    img: baseURL+carrito.imagen_produc,
+                    img: baseURL + carrito.imagen_produc,
                     tot: carrito.total,
                 }));
                 setCarrito(filteredData);
@@ -39,19 +43,81 @@ const Carrito = () => {
         }
     };
 
+    const fetchData2 = async () => {
+        try {
+            const response = await infoTotal();
+            if (response.success) {
+                const totalData = response.data.reduce((acc, curr) => acc + curr.total_pago, 0);
+                setTotalAmount(totalData);
+            } else {
+                Alert.alert('Error al cargar:', 'No se pudo cargar la información del cliente.');
+            }
+        } catch (error) {
+            Alert.alert('Error al cargar', error.message);
+        }
+    };
+
+    const fetchDataCombo = async () => {
+        try {
+            const response = await obtenerDirecciones();
+            if (response.success) {
+                setDirecciones(response.data);
+                console.log(response.data);
+                if (response.data.length > 0) {
+                    setSelectedValue(response.data[0].id_direccion); // Selecciona la primera dirección por defecto
+                    handleDireccionChange(response.data[0].id_direccion);
+                }
+            } else {
+                Alert.alert('Error al cargar:', 'No se pudieron cargar las direcciones del cliente.');
+            }
+        } catch (error) {
+            Alert.alert('Error al cargar', error.message);
+        }
+    };
+
+    const handlePressEliminar = async (id_dp) => {
+        const { success, message } = await deleteCarrito(id_dp);
+        if (success) {
+            Alert.alert("Registro exitoso", "Tu producto ha sido eliminado", [
+                { text: "OK", onPress: () => fetchData() }
+            ]);
+        } else {
+            Alert.alert("Error", message);
+        }
+    };
+
     useEffect(() => {
         fetchData();
+        fetchData2();
+        fetchDataCombo();
     }, []);
 
     const renderCarrito = ({ item }) => (
         <CardCarrito
-        producto={item.prod}
-        marca={item.marc}
-        total={item.tot}
-        cantidad={item.cant}
-        imagen={item.img}
+            producto={item.prod}
+            marca={item.marc}
+            total={item.tot}
+            cantidad={item.cant}
+            imagen={item.img}
+            onRemove={() => handlePressEliminar(item.id_dp)}
         />
     );
+
+    const handlePagar = async () => {
+        if (!selectedValue) {
+            Alert.alert("Error", "No se ha seleccionado una dirección.");
+            return;
+        }
+
+        const { success, message } = await finalizarPedido(selectedValue);
+        if (success) {
+            Alert.alert("Pedido finalizado", "Tu pedido ha sido finalizado correctamente", [
+                { text: "OK" }
+            ]);
+        } else {
+            Alert.alert("Error", message);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -60,7 +126,7 @@ const Carrito = () => {
             <FlatList
                 data={carrito}
                 renderItem={renderCarrito}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={item => item.id_dp.toString()}
                 contentContainerStyle={styles.list}
             />
 
@@ -68,20 +134,23 @@ const Carrito = () => {
                 <Picker
                     selectedValue={selectedValue}
                     style={styles.picker}
-                    onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                    onValueChange={(itemValue) => {
+                        setSelectedValue(itemValue);
+                        handleDireccionChange(itemValue);
+                    }}
                 >
-                    <Picker.Item label="Direccion 1" value="method1" />
-                    <Picker.Item label="Direccion 2" value="method2" />
-                    <Picker.Item label="Direccion 3" value="method3" />
+                    {direcciones.map((direccion) => (
+                        <Picker.Item key={direccion.id} label={direccion.nombre_direccion} value={direccion.id} />
+                    ))}
                 </Picker>
                 <View style={styles.pagos}>
                     <View style={styles.summary}>
                         <Text style={styles.summaryText}>Total</Text>
-                        <Text style={styles.summaryPrice}>$255.00</Text>
+                        <Text style={styles.summaryPrice}>${totalAmount.toFixed(2)}</Text>
                     </View>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <CustomButton text="Ir a pagar" />
+                    <CustomButton text="Ir a pagar" onPress={handlePagar} />
                 </View>
             </View>
         </View>
@@ -101,54 +170,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginVertical: 10,
     },
-    clearButton: {
-        position: 'absolute',
-        right: 20,
-        top: 95,
-    },
-    clearButtonText: {
-        color: '#000',
-        fontWeight: 'bold',
-    },
-    itemContainer: {
-        flexDirection: 'row',
-        backgroundColor: '#F5F5F5',
-        borderRadius: 10,
-        padding: 10,
-        marginVertical: 5,
-        alignItems: 'center',
-    },
-    image: {
-        width: 60,
-        height: 60,
-        resizeMode: 'contain',
-        marginRight: 10,
-    },
-    itemDetails: {
-        flex: 1,
-    },
-    itemName: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#000',
-    },
-    itemBrand: {
-        fontSize: 14,
-        color: '#777',
-    },
-    priceQuantityContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    itemPrice: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#000',
-    },
-    itemQuantity: {
-        fontSize: 14,
-        color: '#777',
+    list: {
+        flexGrow: 1,
     },
     bottomContainer: {
         flex: 1,
@@ -179,12 +202,6 @@ const styles = StyleSheet.create({
     buttonContainer: {
         alignItems: 'center',
         marginBottom: 5,
-    },
-    removeButton: {
-        backgroundColor: '#FF0000',
-        borderRadius: 5,
-        padding: 5,
-        marginLeft: 10,
     },
 });
 
