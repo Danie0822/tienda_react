@@ -45,7 +45,7 @@ const EditPerfil = () => {
         const { success, message } = await registrarEdit(nombre, apellido, email, telefono);
         if (success) {
             Alert.alert("Registro exitoso", "Tu cuenta ha sido editada con éxito", [
-                { text: "OK", onPress: () => navigation.navigate('Configuraciones') }
+                { text: "OK", onPress: () => navigation.navigate('Home') }
             ]);
         } else {
             Alert.alert("Error", message);
@@ -55,7 +55,7 @@ const EditPerfil = () => {
     return (
         <View style={styles.container}>
             <CustomFlecha />
-            <Text style={styles.title}>Crea una cuenta</Text>
+            <Text style={styles.title}>Editar cuenta</Text>
             <CustomTextInput
                 placeholder="Nombre"
                 keyboardType="default"

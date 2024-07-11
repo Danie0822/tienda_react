@@ -23,6 +23,7 @@ export const usePerfil = () => {
 
       const { success, data } = await sendData("/cliente/update/vali/cliente", 'PUT', formData);
       if (success) {
+        await AsyncStorage.setItem("nombre_cliente", nombre);
         return { success: true };
       } else {
         return { success: false, message: data.message };

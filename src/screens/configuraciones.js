@@ -1,13 +1,11 @@
-// screens/Configuracion.js
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity,Alert } from 'react-native';
-import { Card, Title, Paragraph } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
+import { Card, Title } from 'react-native-paper';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { fetchInfoCliente } from '../controller/publica/configuraciones';
 
-const Configuracion = ({ }) => {
-
+const Configuracion = () => {
     const { infoCliente } = fetchInfoCliente();
     const [userInfo, setUserInfo] = useState(null);
     const navigation = useNavigation();
@@ -30,15 +28,23 @@ const Configuracion = ({ }) => {
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // Usar useFocusEffect para recargar datos cada vez que la pantalla se enfoca
+    useFocusEffect(
+        useCallback(() => {
+            fetchData();
+        }, [])
+    );
 
     const handleEditarPerfil = () => {
         navigation.navigate('EditPerfil');
     };
+
     const handleDirreciones = () => {
         navigation.navigate('Addresses');
+    };
+
+    const handleLogin = () => {
+        navigation.navigate('Login');
     };
 
     return (
@@ -48,7 +54,7 @@ const Configuracion = ({ }) => {
             <Card style={styles.card}>
                 <Card.Content>
                     <View style={styles.infoContainer}>
-                    {userInfo ? (
+                        {userInfo ? (
                             <>
                                 <Text style={styles.infoText}>{"Nombre: " + userInfo.nombre}</Text>
                                 <Text style={styles.infoText2}>{"Correo: " + userInfo.correo}</Text>
@@ -68,7 +74,10 @@ const Configuracion = ({ }) => {
                 <Text style={styles.buttonText}>Direcciones</Text>
                 <MaterialCommunityIcons name="arrow-right" size={24} color="black" />
             </TouchableOpacity>
-
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Cerrar Sesión</Text>
+                <MaterialCommunityIcons name="arrow-right" size={24} color="black" />
+            </TouchableOpacity>
         </View>
     );
 }

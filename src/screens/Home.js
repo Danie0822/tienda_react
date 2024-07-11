@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert, FlatList } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputFilter from '../components/inputFilter';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import CardProduct from '../components/cardProducts';
 import { fetchProducts } from '../controller/publica/listaProductos';
 import useApi from '../controller/utilis/useApi';
@@ -15,33 +15,35 @@ const Home = () => {
     const [search, setSearch] = useState('');
     const [products, setProducts] = useState([]);
     const [nombreCliente, setNombreCliente] = useState('');
-    const navigation = useNavigation();
+    const navigation = useNavigation(); 
     
-    //Inicializamos los productos cuando carga la pantalla
-    useEffect(() => {
-        const loadProducts = async () => {
-            try {
-                const fetchedProducts = await fetchProducts(fetchData);
-                setProducts(fetchedProducts);
-            } catch (error) {
-                Alert.alert('Error al cargar', error.message);
-            }
-        };
+    const loadProducts = async () => {
+        try {
+            const fetchedProducts = await fetchProducts(fetchData);
+            setProducts(fetchedProducts);
+        } catch (error) {
+            Alert.alert('Error al cargar', error.message);
+        }
+    };
 
-        const loadNombreCliente = async () => {
-            try {
-                const nombre = await AsyncStorage.getItem('nombre_cliente');
-                if (nombre) {
-                    setNombreCliente(nombre);
-                }
-            } catch (error) {
-                console.error('Error al cargar el nombre del cliente:', error);
+    const loadNombreCliente = async () => {
+        try {
+            const nombre = await AsyncStorage.getItem('nombre_cliente');
+            if (nombre) {
+                setNombreCliente(nombre);
             }
-        };
+        } catch (error) {
+            console.error('Error al cargar el nombre del cliente:', error);
+        }
+    };
 
-        loadProducts();
-        loadNombreCliente();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            loadProducts();
+            loadNombreCliente();
+        }, [])
+    );
+
 
     const handlePress = () => {
         navigation.navigate('Carrito');

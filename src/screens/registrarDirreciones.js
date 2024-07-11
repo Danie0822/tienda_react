@@ -35,7 +35,7 @@ const RegistrarDirreciones = () => {
     return (
         <View style={styles.container}>
             <CustomFlecha />
-            <Text style={styles.title}>Crea una cuenta</Text>
+            <Text style={styles.title}>Editar dirrecion</Text>
             <CustomTextInput
                 placeholder="Nombre Dirrecion"
                 keyboardType="default"
@@ -70,9 +70,6 @@ const RegistrarDirreciones = () => {
                 text="Continuar"
                 onPress={handlePressRegistrar}
             />
-            <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handlePress}>
-                <Text style={styles.register}>Ya tienes una cuenta? <Text style={styles.registerLink}>Inicia sesión</Text></Text>
-            </TouchableOpacity>
         </View>
     );
 };
