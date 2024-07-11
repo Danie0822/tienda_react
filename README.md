@@ -1,4 +1,4 @@
-# 🌸 EssenZial Perfume Shop
+# 🌸 EssenZial 
 
 Bienvenido a **EssenZial Perfume Shop**, una moderna tienda de perfumes construida con **React Native** y **Expo**, respaldada por una **API de Node.js**. Este proyecto permite a los usuarios registrarse, iniciar sesión, ver perfumes, editar su perfil y direcciones, gestionar su carrito de compras y recuperar contraseñas vía Gmail.
 
