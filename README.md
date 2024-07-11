@@ -3,9 +3,9 @@
 Bienvenido a **EssenZial Perfume Shop**, una moderna tienda de perfumes construida con **React Native** y **Expo**, respaldada por una **API de Node.js**. Este proyecto permite a los usuarios registrarse, iniciar sesión, ver perfumes, editar su perfil y direcciones, gestionar su carrito de compras y recuperar contraseñas vía Gmail.
 
 ## 🧑‍🤝‍🧑 Equipo de Desarrollo
--Daniel Alessandro Morales Sandoval
--José Alejandro Sánchez Henríquez
--Adriana Elizabeth Orellana Aguilar
+- Daniel Alessandro Morales Sandoval
+- José Alejandro Sánchez Henríquez
+- Adriana Elizabeth Orellana Aguilar
 
 ## ✨ Características
 
@@ -20,6 +20,9 @@ Bienvenido a **EssenZial Perfume Shop**, una moderna tienda de perfumes construi
 - **Frontend**: React Native, Expo
 - **Backend**: Node.js
 - **Base de Datos**: MySQL
+
+# 📜 Licencia
+Este proyecto está licenciado bajo la Licencia Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International.
 
 ## 📦 Dependencias
 
