@@ -1,20 +1,17 @@
+// apiConfig.js
 class ApiConfig {
   constructor() {
-    this.baseURL = "http://192.168.137.1:4000/";
-  } 
-
-  get baseURL() {
-    return this._baseURL;
+    this.baseIP = "http://192.168.137.1:4000";
   }
 
-  get apiURL() {
-    return `${this.baseURL}api`;
+  getBaseURL() {
+    return `${this.baseIP}/api`;
   }
 
-  get portURL() {
-    return `${this.baseURL}`;
+  getBaseURL2() {
+    return `${this.baseIP}/`;
   }
-}
+} 
 
 const apiConfig = new ApiConfig();
 export default apiConfig;
