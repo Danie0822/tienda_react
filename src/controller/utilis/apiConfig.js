@@ -1,21 +1,20 @@
-// apiConfig.js
 class ApiConfig {
-    constructor() {
-      this.baseURL = "http://10.10.0.4:4000/api";
-      this.baseURL2 = "http://10.10.0.4:4000/";
-    }
-  
-    getBaseURL() {
-      return this.baseURL;
-    }
+  constructor() {
+    this.baseURL = "http://192.168.137.1:4000/";
+  } 
 
-    getBaseURL2() {
-      return this.baseURL2;
-    }
-  
-    
+  get baseURL() {
+    return this._baseURL;
   }
-  
-  const apiConfig = new ApiConfig();
-  export default apiConfig;
-  
+
+  get apiURL() {
+    return `${this.baseURL}api`;
+  }
+
+  get portURL() {
+    return `${this.baseURL}`;
+  }
+}
+
+const apiConfig = new ApiConfig();
+export default apiConfig;
