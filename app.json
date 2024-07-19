@@ -19,7 +19,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.daniel082f.tienda_react"
+      "package": "com.daniel.tienda_react",
+      "permissions": ["INTERNET"] 
     },
     "web": {
       "favicon": "./assets/favicon.png"

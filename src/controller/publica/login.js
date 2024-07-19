@@ -24,7 +24,7 @@ export async function authenticateUser(email, password) {
             throw new Error(data.message || "Error de autenticación");
         }
     } catch (error) {
-        throw new Error("Credenciales inválidas");
+        throw new Error(error, 'url' + baseURL );
     }
 }
 

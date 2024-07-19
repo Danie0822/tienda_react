@@ -5,13 +5,14 @@ import CustomTextInput from '../components/customInput';
 import CustomButton from '../components/customButton';
 import { authenticateUser, saveTokenToAsyncStorage } from '../controller/publica/login';
 import { calculateAndLogSha256 } from '../controller/utilis/sha256';
-
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Importar AsyncStorage
 
 const { width } = Dimensions.get('window');
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [ipAddress, setIpAddress] = useState('');
     const navigation = useNavigation();
 
     const handleRecuperaciones = () => {
@@ -20,18 +21,27 @@ const LoginScreen = () => {
 
     const handlePress = async () => {
         try {
+            // Guardar la IP en AsyncStorage
+            if (ipAddress) {
+                await AsyncStorage.setItem('ipAddress', ipAddress);
+            }
             const hashedPassword = await calculateAndLogSha256(password);
             const userData = await authenticateUser(email, hashedPassword);
             await saveTokenToAsyncStorage(userData);
+
+
+
             limpiarFormulario();
             navigation.navigate('Home');
         } catch (error) {
             Alert.alert('Error', error.message);
         }
     };
+
     const limpiarFormulario = () => {
         setEmail('');
         setPassword('');
+        setIpAddress(''); // Limpiar el campo de IP
     };
 
     const handlePressRegistrar = () => {
@@ -53,6 +63,12 @@ const LoginScreen = () => {
                 secureTextEntry
                 value={password}
                 onChangeText={text => setPassword(text)}
+            />
+            <CustomTextInput
+                placeholder="Dirección IP"
+                keyboardType="default"
+                value={ipAddress}
+                onChangeText={text => setIpAddress(text)}
             />
             <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handleRecuperaciones}>
                 <Text style={styles.forgotPassword}>Olvidé mi contraseña</Text>
