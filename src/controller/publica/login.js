@@ -2,14 +2,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiConfig from '../utilis/apiConfig';
 
 const baseURL = apiConfig.getBaseURL();
-
+let url = '';
 // Función asincrónica para autenticar al usuario
 export async function authenticateUser(email, password) {
     try {
         // Codificar el correo electrónico y la contraseña para incluirlos en la URL de la solicitud
         const encodedEmail = encodeURIComponent(email);
         const encodedPassword = encodeURIComponent(password);
-        const url = `${baseURL}/login/cliente?correo=${encodedEmail}&clave=${encodedPassword}`;
+        url = `${baseURL}/login/cliente?correo=${encodedEmail}&clave=${encodedPassword}`;
 
         // Realizar una solicitud GET a la API de inicio de sesión
         const response = await fetch(url);
@@ -24,7 +24,7 @@ export async function authenticateUser(email, password) {
             throw new Error(data.message || "Error de autenticación");
         }
     } catch (error) {
-        throw new Error(error, 'url' + baseURL );
+        throw new Error(error + url);
     }
 }
 
@@ -32,7 +32,7 @@ export async function authenticateUser(email, password) {
 export async function saveTokenToAsyncStorage(data) {
     try {
         const token = data.data.token;
-        const id = data.data.id_cliente.toString(); 
+        const id = data.data.id_cliente.toString();
         const nombre = data.data.nombre_cliente;
 
         await AsyncStorage.setItem("nombre_cliente", nombre);

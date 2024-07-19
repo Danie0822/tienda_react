@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class ApiConfig {
   constructor() {
-    this.baseIP = "http://192.168.137.1:4000"; 
+    this.baseIP = "http://192.168.58.1:4000"; 
     this.init(); 
   }
 

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "tienda_react",
-    "slug": "tienda_react",
+    "slug": "tiendareact",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,7 +27,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "8ea5ce6b-be2d-4f43-a6c6-00cc2885dd58"
+        "projectId": "ccccdcb0-1edb-4252-96a4-f7ff890076f8"
       }
     }
   }
