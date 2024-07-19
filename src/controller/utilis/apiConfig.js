@@ -1,20 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+// apiConfig.js
 class ApiConfig {
   constructor() {
-    this.baseIP = "http://192.168.58.1:4000"; 
-    this.init(); 
-  }
-
-  async init() {
-    try {
-      const ipAddress = await AsyncStorage.getItem('ipAddress');
-      if (ipAddress) {
-        this.baseIP = `http://${ipAddress}:4000`;
-      }
-    } catch (error) {
-      console.error("Error al obtener la IP desde AsyncStorage:", error);
-    }
+    this.baseIP = "http://192.168.137.1:4000";
   }
 
   getBaseURL() {
@@ -24,7 +11,7 @@ class ApiConfig {
   getBaseURL2() {
     return `${this.baseIP}/`;
   }
-}
+} 
 
 const apiConfig = new ApiConfig();
 export default apiConfig;

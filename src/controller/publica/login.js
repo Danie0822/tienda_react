@@ -3,6 +3,7 @@ import apiConfig from '../utilis/apiConfig';
 
 const baseURL = apiConfig.getBaseURL();
 let url = '';
+
 // Función asincrónica para autenticar al usuario
 export async function authenticateUser(email, password) {
     try {
@@ -14,6 +15,7 @@ export async function authenticateUser(email, password) {
         // Realizar una solicitud GET a la API de inicio de sesión
         const response = await fetch(url);
         const data = await response.json();
+        console.log(baseURL);
 
         // Verificar si la solicitud fue exitosa y si el usuario está autenticado
         if (response.ok && data.success) {

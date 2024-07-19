@@ -22,7 +22,6 @@ const LoginScreen = () => {
     const handlePress = async () => {
         try {
             // Guardar la IP en AsyncStorage
-            if (ipAddress === '') { asyncStorage.removeItem('ipAddress'); } else { await AsyncStorage.setItem('ipAddress', ipAddress); }
             const hashedPassword = await calculateAndLogSha256(password);
             const userData = await authenticateUser(email, hashedPassword);
             await saveTokenToAsyncStorage(userData);
@@ -58,12 +57,6 @@ const LoginScreen = () => {
                 secureTextEntry
                 value={password}
                 onChangeText={text => setPassword(text)}
-            />
-            <CustomTextInput
-                placeholder="Dirección IP"
-                keyboardType="default"
-                value={ipAddress}
-                onChangeText={text => setIpAddress(text)}
             />
             <TouchableOpacity style={styles.forgotPasswordContainer} onPress={handleRecuperaciones}>
                 <Text style={styles.forgotPassword}>Olvidé mi contraseña</Text>
