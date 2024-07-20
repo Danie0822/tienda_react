@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Rating } from 'react-native-ratings';
 import CustomFlecha from '../components/regresar';
-import useValoraciones from '../controller/publica/valoraciones'; 
+import useValoraciones from '../controller/publica/valoraciones_inventario'; 
 
 // Función para formatear la fecha
 const formatDate = (date) => {
