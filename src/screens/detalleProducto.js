@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome'; // Import Icon
 import CustomFlecha from '../components/regresar';
 import CustomButton from '../components/customButton';
 import { fetchInfoCliente } from '../controller/publica/detalleProductoCotroller';
+import { fetchInfoVal } from '../controller/publica/valoraciones';
 import apiConfig from '../controller/utilis/apiConfig';
 
 const baseURL = apiConfig.getBaseURL2();
@@ -13,10 +15,12 @@ const DetalleProducto = ({ }) => {
     const [cantidad, setCantidad] = useState(1);
     const [costo, setCosto] = useState(null);
     const [cantidadVal, setCantidadVal] = useState(null);
-    const navigation = useNavigation();
-    const { infoProducto, agregarCarrito } = fetchInfoCliente(); 
     const [userInfo, setUserInfo] = useState(null);
-    
+    const [valoracion, setValoracion] = useState(0); // Agrega estado para la valoración
+    const navigation = useNavigation();
+    const { infoProducto, agregarCarrito } = fetchInfoCliente();
+    const { valoraciones } = fetchInfoVal();
+
     const fetchData = async () => {
         try {
             const response = await infoProducto();
@@ -39,15 +43,38 @@ const DetalleProducto = ({ }) => {
                 Alert.alert('Error al cargar:', 'No se pudo cargar la información del cliente.');
             }
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            Alert.alert('Error al cargar', error.message);
+        }
+    };
+
+    const fetchDataValorarciones = async () => {
+        try {
+            const response = await valoraciones();
+            if (response.success) {
+                const user = response.data[0];
+                setUserInfo(prevState => ({
+                    ...prevState,
+                    val: user.valoracion_calculada,
+                }));
+                setValoracion(user.valoracion_calculada); // Establecer la valoración
+            } else {
+                Alert.alert('Error al cargar:', 'No se pudo cargar la información del cliente.');
+            }
+        } catch (error) {
+            console.log(error);
             Alert.alert('Error al cargar', error.message);
         }
     };
 
     useEffect(() => {
-        fetchData();
+        const fetchDataAsync = async () => {
+            await fetchData();
+            await fetchDataValorarciones();
+        };
+        fetchDataAsync();
     }, []);
-    
+
     const incrementar = () => setCantidad(cantidad + 1);
     const decrementar = () => {
         if (cantidad > 1) {
@@ -58,9 +85,9 @@ const DetalleProducto = ({ }) => {
     const handlePress = () => {
         navigation.navigate('Carrito');
     };
-    
+
     const handlePressCarrito = async () => {
-        const { success, message } = await agregarCarrito(cantidad, costo,cantidadVal); // Pasar el costo aquí
+        const { success, message } = await agregarCarrito(cantidad, costo, cantidadVal); // Pasar el costo aquí
         if (success) {
             Alert.alert("Agregado Exitoso", `Tus productos se han agregado al carrito. `, [
                 { text: "OK", onPress: () => navigation.navigate('Carrito') }
@@ -77,10 +104,21 @@ const DetalleProducto = ({ }) => {
                 {userInfo && <Image source={{ uri: `${userInfo.im}` }} style={styles.image} />}
             </View>
             <View style={styles.container}>
-                <Text style={styles.textTitulo}>{ (userInfo ? userInfo.nm : "")}</Text>
+                <Text style={styles.textTitulo}>{(userInfo ? userInfo.nm : "")}</Text>
                 <View style={styles.row}>
                     <Text style={styles.textMarca}>{userInfo ? userInfo.mr : ""}</Text>
                     <Text style={styles.textPrecio}>{"$" + (userInfo ? userInfo.pr : "")}</Text>
+                </View>
+                <View style={styles.starContainer}>
+                    <Text style={styles.textValoracion}>{"Valoración"}</Text>
+                    {[...Array(5)].map((_, index) => (
+                        <Icon 
+                            key={index} 
+                            name={index < valoracion ? "star" : "star-o"} 
+                            size={20} 
+                            color={index < valoracion ? "#FFD700" : "#d3d3d3"} 
+                        /> 
+                    ))}
                 </View>
             </View>
             <View style={styles.detalles}>
@@ -161,11 +199,25 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         marginVertical: 5,
     },
+    textValoracion: {
+        fontSize: 18,
+        color: '#777',
+        fontWeight: '500',
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginVertical: 5,
+    },
     textPrecio: {
         fontSize: 22,
         color: '#EDD146',
         fontWeight: '500',
         textAlign: 'right',
+    },
+    starContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginVertical: 5,
     },
     detalles: {
         padding: 13,
