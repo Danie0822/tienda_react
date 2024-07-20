@@ -19,6 +19,7 @@ import AddressesScreen from './src/screens/dirreciones';
 import RegistrarDirreciones from './src/screens/registrarDirreciones';
 import EditDirrecion from './src/screens/editDirreciones';
 import ExitoScreen from './src/screens/exito';
+import ValoracionesScreen from './src/screens/valoraciones';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -95,6 +96,7 @@ export default function App() {
         <Stack.Screen name="RegistrarDirreciones" component={RegistrarDirreciones}/>
         <Stack.Screen name="DetalleOrden" component={DetalleOrden}/>
         <Stack.Screen name="ExitoScreen" component={ExitoScreen}/>
+        <Stack.Screen name="ValoracionesScreen" component={ValoracionesScreen}/>
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>

@@ -22,7 +22,7 @@ const LoginScreen = () => {
     const handlePress = async () => {
         try {
             // Guardar la IP en AsyncStorage
-            if (ipAddress === '') { asyncStorage.removeItem('ipAddress'); } else { await AsyncStorage.setItem('ipAddress', ipAddress); }
+            if (ipAddress === '') { AsyncStorage.removeItem('ipAddress'); } else { await AsyncStorage.setItem('ipAddress', ipAddress); }
             const hashedPassword = await calculateAndLogSha256(password);
             const userData = await authenticateUser(email, hashedPassword);
             await saveTokenToAsyncStorage(userData);
