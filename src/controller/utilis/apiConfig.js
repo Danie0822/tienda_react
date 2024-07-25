@@ -1,7 +1,7 @@
 // apiConfig.js
 class ApiConfig {
   constructor() {
-    this.baseIP = "http://192.168.137.1:4000";
+    this.baseIP = "https://api-production-567e.up.railway.app";
   }
 
   getBaseURL() {
