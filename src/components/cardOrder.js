@@ -1,7 +1,7 @@
 // CardOrder.js
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-
+// Componente para mostrar un pedido
 const CardOrder = ({ orderNumber, orderDate, onPress }) => {
   return (
     <View style={styles.card}>

@@ -5,14 +5,14 @@ import { useNavigation } from '@react-navigation/native';
 import CardOrder from '../components/cardOrder';
 import { fetchOrders } from '../controller/publica/estadoPedidos';
 import useApi from '../controller/utilis/useApi';
-
+// import { useApi } from '../controller/utilis/useApi';
 const PedidosScreen = ({ }) => {
   const { fetchData } = useApi();
   const [selectedTab, setSelectedTab] = useState('Preparandose');
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
-
+  // Función para obtener los pedidos
   const handleTabClick = async (estado) => {
     setSelectedTab(estado);
     setIsLoading(true);
@@ -25,7 +25,7 @@ const PedidosScreen = ({ }) => {
       setIsLoading(false);
     }
   };
-
+  // Función para manejar la navegación al detalle de un pedido
   const handlePress = async (id_pedido) => {
     try {
       await AsyncStorage.setItem("id_pedido", id_pedido.toString());

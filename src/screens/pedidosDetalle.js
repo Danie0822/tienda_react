@@ -7,7 +7,6 @@ import ProductCard from '../components/cardProductOrder';
 import { fetchOrderInfo } from '../controller/publica/detalleProductoPedido';
 import useApi from '../controller/utilis/useApi';
 
-
 //Funcion para setear datos de detalle orden
 const DetalleOrden = ({ }) => {
   const { fetchData } = useApi();

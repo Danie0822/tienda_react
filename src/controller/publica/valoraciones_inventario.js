@@ -1,18 +1,18 @@
 import apiConfig from '../utilis/apiConfig';
 import useApi from '../utilis/useApi';
-
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 const useValoraciones = () => {
     const { sendData } = useApi();
 
     const validarCalificacion = (calificacion) => {
         return Number.isInteger(calificacion);
     };
-
+    // funcion para validar el comentario
     const validarComentario = (comentario) => {
         const regex = /^[A-Za-z\s]+$/; // solo letras y espacios
         return regex.test(comentario) && comentario.length <= 100;
     };
-
+    // funcion para guardar la valoracion
     const valoracionesSave = async (calificacion_producto, comentario_producto, fecha_valoracion, estado_comentario, id_detalle_pedido) => {
         try {
             if (!validarCalificacion(calificacion_producto)) {

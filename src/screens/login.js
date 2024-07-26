@@ -8,7 +8,7 @@ import { calculateAndLogSha256 } from '../controller/utilis/sha256';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importar AsyncStorage
 
 const { width } = Dimensions.get('window');
-
+// Importar el hook de navegación
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

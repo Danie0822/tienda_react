@@ -4,7 +4,7 @@ import { calculateAndLogSha256 } from '../utilis/sha256';
 // funcion para registrar un cliente
 export const useRegistrar = () => {
   const { sendData } = useApi();
-
+// funcion para guardar los datos del cliente
   const registrarSave = async (nombre, apellido, email, telefono, password) => {
     try {
       const validacion = await validarDatos(nombre, apellido, email, telefono, password);

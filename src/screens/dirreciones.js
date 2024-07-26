@@ -12,7 +12,7 @@ const AddressesScreen = () => {
   const { infoCliente } = fetchInfoCliente();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
-
+  // Función para obtener la información del cliente y cargar las direcciones
   const fetchData = async () => {
     try {
       const response = await infoCliente();

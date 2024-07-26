@@ -7,7 +7,7 @@ import CustomFlecha from '../components/regresar';
 import { useRegistrar } from '../controller/publica/agregarDirrecion';
 
 const { width } = Dimensions.get('window');
-
+// Importar el hook de navegación
 const RegistrarDirreciones = () => {
     const [nombre, setNombre] = useState('');
     const [direccion, setdireccion] = useState('');

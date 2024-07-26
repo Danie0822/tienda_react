@@ -7,7 +7,7 @@ import CustomFlecha from '../components/regresar';
 import { useRegistrar } from '../controller/publica/registrarSave'; 
 
 const { width } = Dimensions.get('window');
-
+// Importar el hook de navegación
 const Registrar = () => {
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');

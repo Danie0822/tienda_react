@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+// Componente para mostrar un producto en el carrito
 const CardCarrito = ({ producto, marca, imagen, total, cantidad, onRemove }) => {
     return (
         <View style={styles.itemContainer}>

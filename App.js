@@ -73,7 +73,7 @@ export default function App() {
       </View>
     );
   }
-
+ // return <LoginScreen />;
   return (
     <NavigationContainer>
       <Stack.Navigator

@@ -14,7 +14,7 @@ export const fetchInfoVal = () => {
             return null;
         }
     };
-
+   // función para obtener la información del producto
     const valoraciones = async () => {
         try {
             const id_invt = await fetchProductoId();

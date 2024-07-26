@@ -14,7 +14,7 @@ export const fetchInfoCliente = () => {
             return null;
         }
     };
-
+// funcion para obtener la informacion del producto
     const infoProducto = async () => {
         try {
             const id_invt = await fetchProductoId();

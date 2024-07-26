@@ -2,7 +2,7 @@ import React from 'react';
 import { TextInput, StyleSheet, Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('window');
-
+// Componente para ingresar un texto
 const CustomTextInput = ({ placeholder, secureTextEntry, keyboardType, value, onChangeText }) => {
   return (
     <TextInput

@@ -10,7 +10,7 @@ const { width } = Dimensions.get('window');
 const Recuperacion = () => {
     const [email, setEmail] = useState('');
     const navigation = useNavigation();
-
+    // Manejar presión del botón de continuar
     const handlePress = () => {
         if (!validaciones.validarCorreoElectronico(email)) {
             return Alert.alert("El correo electrónico no tiene un formato válido.");

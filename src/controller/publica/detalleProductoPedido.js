@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import apiConfig from '../utilis/apiConfig';
 
 const baseURL = apiConfig.getBaseURL2();
-
+// funcion para obtener la informacion del pedido
 export const fetchOrderInfo = async (fetchData) => {
     const idPedido = await AsyncStorage.getItem("id_pedido");
     
@@ -11,12 +11,12 @@ export const fetchOrderInfo = async (fetchData) => {
         Alert.alert('Error:', 'No se encontró el ID del pedido.');
         return { products: [], total_pago: 0 };
     }
-    
+    // funcion para obtener la informacion del pedido
     const url = `/pedidos/procedure/details/${idPedido}`;
     try {
         const response = await fetchData(url);
         if (response.success) {
-            const result = response.data[0]; // Extraer el primer array del objeto `data`
+            const result = response.data[0]; 
             if (result.length > 0) {
                 const idDetalle = result[0].id_detalle_pedido;
                 await AsyncStorage.setItem("id_detalle_pedido", idDetalle.toString());

@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // funcion para registrar un cliente
 export const usePerfil = () => {
   const { sendData } = useApi();
-
+// funcion para registrar la edicion del cliente
   const registrarEdit = async (nombre, apellido, email, telefono) => {
     try {
       const validacion = await validarDatos(nombre, apellido, email, telefono);

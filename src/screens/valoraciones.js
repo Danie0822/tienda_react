@@ -13,7 +13,7 @@ const formatDate = (date) => {
   const day = date.getDate().toString().padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
-
+// Función para guardar la valoración
 const Valoraciones = () => {
   const navigation = useNavigation();
   const [rating, setRating] = useState(0);

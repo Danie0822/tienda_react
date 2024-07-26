@@ -17,7 +17,7 @@ export const fetchInfoCarrito = () => {
             return null;
         }
     };
-
+// funcion para obtener la informacion del carrito
     const infoCarrito = async () => {
         try {
             const id = await fetchClientId();

@@ -17,7 +17,7 @@ const EditPerfil = () => {
     const [email, setEmail] = useState('');
     const navigation = useNavigation();
     const { registrarEdit } = usePerfil();
-
+    // Función para obtener la información del cliente
     const fetchData = async () => {
         try {
             const response = await infoCliente();

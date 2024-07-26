@@ -14,7 +14,7 @@ export const fetchInfoCliente = () => {
             return null;
         }
     };
-    
+    // funcion para obtener la informacion del cliente de dirreciones
     const infoCliente = async () => {
         try {
             const id = await fetchClientId();

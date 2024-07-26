@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-
+// Componente para regresar a la pantalla anterior
 const CustomFlecha = () => {
     const navigation = useNavigation(); 
     return (

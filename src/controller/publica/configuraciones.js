@@ -14,7 +14,7 @@ export const fetchInfoCliente = () => {
             return null;
         }
     };
-    
+    // informacion del cliente
     const infoCliente = async () => {
         try {
             const id = await fetchClientId();

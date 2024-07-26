@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextInput, StyleSheet, Dimensions } from 'react-native';
 
-
 // Obtener el ancho de la pantalla
 const { width } = Dimensions.get('window');
 

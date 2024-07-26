@@ -4,7 +4,7 @@ import { Card, Title } from 'react-native-paper';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { fetchInfoCliente } from '../controller/publica/configuraciones';
-
+// Pantalla de configuraciones
 const Configuracion = () => {
     const { infoCliente } = fetchInfoCliente();
     const [userInfo, setUserInfo] = useState(null);

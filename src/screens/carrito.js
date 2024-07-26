@@ -8,10 +8,11 @@ import { fetchInfoCarrito } from '../controller/publica/carritoController';
 import apiConfig from '../controller/utilis/apiConfig';
 import { useNavigation } from '@react-navigation/native';
 const baseURL = apiConfig.getBaseURL2();
-
+// import { useApi } from '../controller/utilis/useApi';
 const { width } = Dimensions.get('window');
-
+// const baseURL = apiConfig.getBaseURL();
 const Carrito = () => {
+    // const { fetchDataWithOptions } = useApi();
     const [selectedValue, setSelectedValue] = useState(null);
     const [carrito, setCarrito] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
@@ -40,7 +41,7 @@ const Carrito = () => {
             Alert.alert('Error al cargar', error.message);
         }
     };
-
+   // const fetchDataWithOptions = async (endpoint, options) => {
     const fetchData2 = async () => {
         try {
             const response = await infoTotal();
@@ -54,7 +55,7 @@ const Carrito = () => {
             Alert.alert('Error al cargar', error.message);
         }
     };
-
+   // const fetchDataWithOptions = async (endpoint, options) => {
     const fetchDataCombo = async () => {
         try {
             const response = await obtenerDirecciones();

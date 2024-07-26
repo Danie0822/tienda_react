@@ -3,10 +3,10 @@ import { Alert } from 'react-native';
 import apiConfig from '../utilis/apiConfig';
 
 const baseURL = apiConfig.getBaseURL2();
-
+// funcion para obtener los productos
 export const fetchProducts = async (fetchData) => {
     const url = '/inventario/vistaPrueba/view/';
-
+    //Obtenemos la informacion de los productos
     try {
         const response = await fetchData(url);
         if (response.success) {

@@ -20,7 +20,7 @@ const DetalleProducto = ({ }) => {
     const navigation = useNavigation();
     const { infoProducto, agregarCarrito } = fetchInfoCliente();
     const { valoraciones } = fetchInfoVal();
-
+    // Función para obtener la información del producto
     const fetchData = async () => {
         try {
             const response = await infoProducto();

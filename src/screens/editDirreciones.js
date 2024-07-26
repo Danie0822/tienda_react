@@ -18,7 +18,7 @@ const EditDirrecion  = () => {
     const [instruciones, setinstruciones] = useState('');
     const navigation = useNavigation();
     const { dirrecionesEdit } = useDirrecion();
-
+    // Función para obtener la información del cliente
     const fetchData = async () => {
         try {
             const response = await infoCliente();

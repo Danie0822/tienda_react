@@ -14,7 +14,7 @@ export const fetchOrders = async (fetchData, estado) => {
     }
 
     const url = `/pedidos/view/status/${estado}/${idCliente}`;
-
+   //Obtenemos la informacion de los pedidos
     try {
         const { success, data } = await fetchData(url);
         if (!success) {

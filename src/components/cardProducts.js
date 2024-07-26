@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity} from 'reac
 import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
-
+// Componente para mostrar un producto
 const CardProduct = ({ nombre, marca, precio, imagen , id_inventario}) => {
 
     const navigation = useNavigation();
@@ -25,7 +25,7 @@ const CardProduct = ({ nombre, marca, precio, imagen , id_inventario}) => {
     </TouchableOpacity>
     );
 };
-
+// Estilos de CardProduct
 const styles = StyleSheet.create({
     cardContainer: {
         backgroundColor: '#fff',

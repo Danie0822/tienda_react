@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
-
+// Componente para mostrar la información de una dirección
 const CardAddress = ({ title, address, onEdit, onSwipeRight }) => {
   const [backgroundColor, setBackgroundColor] = useState('#f2f2f2');
   const translateX = new Animated.Value(0);
-
+  // Función para manejar el gesto de deslizar
   const handleGesture = ({ nativeEvent }) => {
     if (nativeEvent.translationX > 0) {
       translateX.setValue(nativeEvent.translationX);
@@ -20,7 +20,7 @@ const CardAddress = ({ title, address, onEdit, onSwipeRight }) => {
       }
     }
   };
-
+  // Función para animar el deslizamiento
   const animateSwipe = () => {
     Animated.timing(translateX, {
       toValue: 500, 
@@ -30,7 +30,7 @@ const CardAddress = ({ title, address, onEdit, onSwipeRight }) => {
       onSwipeRight();
     });
   };
-
+  // Función para resetear la posición
   const resetPosition = () => {
     Animated.spring(translateX, {
       toValue: 0,

@@ -6,7 +6,7 @@ import CustomButton from '../components/customButton';
 import CustomFlecha from '../components/regresar';
 import { useCambioClave } from '../controller/publica/cambioClave'; 
 const { width } = Dimensions.get('window');
-
+// Importar el hook de navegación
 const RecuContra = () => {
     const [password, setPassword] = useState('');
     const [password1, setPassword1] = useState('');
@@ -14,7 +14,7 @@ const RecuContra = () => {
     const navigation = useNavigation();
     const { email } = route.params;
     const { UpdateClave } = useCambioClave();
-
+    // Manejar presión del botón de continuar
     const handlePress = async() => {
         const { success, message } = await UpdateClave(email, password, password1);
         if (success) {

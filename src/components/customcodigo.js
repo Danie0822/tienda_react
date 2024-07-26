@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextInput, StyleSheet, Dimensions } from 'react-native';
 const { width } = Dimensions.get('window');
-
+// Componente para ingresar un código
 const CustomCodigoInput = ({ placeholder, nombre, setNombre }) => {
   return (
     <TextInput
