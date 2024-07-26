@@ -7,18 +7,18 @@ import CardCarrito from '../components/cardCarrito';
 import { fetchInfoCarrito } from '../controller/publica/carritoController';
 import apiConfig from '../controller/utilis/apiConfig';
 import { useNavigation } from '@react-navigation/native';
+
 const baseURL = apiConfig.getBaseURL2();
-// import { useApi } from '../controller/utilis/useApi';
 const { width } = Dimensions.get('window');
-// const baseURL = apiConfig.getBaseURL();
+// Importar el hook de navegación
 const Carrito = () => {
-    // const { fetchDataWithOptions } = useApi();
     const [selectedValue, setSelectedValue] = useState(null);
     const [carrito, setCarrito] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
     const [direcciones, setDirecciones] = useState([]);
     const { infoCarrito, infoTotal, deleteCarrito, obtenerDirecciones, finalizarPedido, handleDireccionChange } = fetchInfoCarrito();
     const navigation = useNavigation();
+    // Función para obtener la información del carrito
     const fetchData = async () => {
         try {
             const response = await infoCarrito();
@@ -41,7 +41,7 @@ const Carrito = () => {
             Alert.alert('Error al cargar', error.message);
         }
     };
-   // const fetchDataWithOptions = async (endpoint, options) => {
+    // Función para obtener la información del total
     const fetchData2 = async () => {
         try {
             const response = await infoTotal();
@@ -55,7 +55,7 @@ const Carrito = () => {
             Alert.alert('Error al cargar', error.message);
         }
     };
-   // const fetchDataWithOptions = async (endpoint, options) => {
+    // Función para obtener la información de las direcciones
     const fetchDataCombo = async () => {
         try {
             const response = await obtenerDirecciones();
@@ -72,7 +72,7 @@ const Carrito = () => {
             Alert.alert('Error al cargar', error.message);
         }
     };
-
+   // Función para eliminar un producto del carrito
     const handlePressEliminar = async (id_dp) => {
         const { success, message } = await deleteCarrito(id_dp);
         if (success) {
@@ -104,6 +104,11 @@ const Carrito = () => {
     const handlePagar = async () => {
         if (!selectedValue) {
             Alert.alert("Error", "No se ha seleccionado una dirección.");
+            return;
+        }
+
+        if (carrito.length === 0) {
+            Alert.alert("Error", "No tienes productos en el carrito.");
             return;
         }
 
