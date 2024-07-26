@@ -21,11 +21,14 @@ const Valoraciones = () => {
   const { valoracionesSave } = useValoraciones();
 
   const guardarReseña = async () => {
+    
     const status = true;
-    const date = formatDate(date);
+    const currentDate = new Date();
+    const formattedDate = formatDate(currentDate);
     const idDetalle = await AsyncStorage.getItem("id_detalle_pedido");
-    console.log(date, rating, comment, idDetalle);
-    const { success, message } = await valoracionesSave(rating, comment, date, status, idDetalle);
+    
+    console.log(formattedDate, rating, comment, idDetalle);
+    const { success, message } = await valoracionesSave(rating, comment, formattedDate, status, idDetalle);
     if (success) {
       Alert.alert("Insercción exitosa", "Se ha enviado la información de la valoración", [
         { text: "OK", onPress: () => navigation.goBack()}
